@@ -11,7 +11,9 @@
     "clickToChange": "Clic para cambiar",
     "removeIcon": "Eliminar \u00edcono",
     "selectIcon": "Seleccionar \u00cdcono",
-    "public": "P\u00fablico"
+    "public": "P\u00fablico",
+    "opdsSort": "Orden OPDS",
+    "opdsSortTooltip": "Anula el orden de clasificaci\u00f3n para este estante cuando se accede mediante OPDS. Si no se establece, se utiliza la preferencia de orden de la cuenta OPDS del usuario."
   },
   "actions": {
     "cancel": "Cancelar",
@@ -194,6 +196,18 @@
     "week": "Esta Semana",
     "month": "Este Mes",
     "year": "Este A\u00f1o"
+  },
+  "opdsSort": {
+    "default": "Predeterminado de cuenta (sin anular)",
+    "RECENT": "A\u00f1adido recientemente",
+    "TITLE_ASC": "T\u00edtulo (A \u2192 Z)",
+    "TITLE_DESC": "T\u00edtulo (Z \u2192 A)",
+    "AUTHOR_ASC": "Autor (A \u2192 Z)",
+    "AUTHOR_DESC": "Autor (Z \u2192 A)",
+    "SERIES_ASC": "Serie (A \u2192 Z)",
+    "SERIES_DESC": "Serie (Z \u2192 A)",
+    "RATING_ASC": "Calificaci\u00f3n (Baja \u2192 Alta)",
+    "RATING_DESC": "Calificaci\u00f3n (Alta \u2192 Baja)"
   },
   "metadataFieldGroups": {
     "bookInfo": "Info del Libro",
