@@ -15,6 +15,9 @@
     "recentlyAdded": "Nyligen tillagda",
     "discoverNew": "Upptäck något nytt",
     "magicShelf": "Magisk hylla",
+    "upNext": "Nästa",
+    "readAgain": "Läs igen",
+    "recommendations": "Rekommendationer",
     "default": "Scroller"
   },
   "settings": {
@@ -31,12 +34,21 @@
     "maxItems": "Max antal",
     "addScroller": "Lägg till scroller",
     "resetToDefault": "Återställ till standard",
+    "upNextLabel": "Bokval",
+    "selectMode": "Välj läge",
+    "readAgainLabel": "Sorteringsordning",
+    "selectSorting": "Välj sortering",
+    "cancel": "Avbryt",
+    "save": "Spara",
     "scrollerTypes": {
       "lastRead": "Fortsätt läsa",
       "lastListened": "Fortsätt lyssna",
       "latestAdded": "Nyligen tillagda",
       "random": "Upptäck något nytt",
       "magicShelf": "Magisk hylla",
+      "upNext": "Nästa",
+      "readAgain": "Läs igen",
+      "recommendations": "Rekommendationer",
       "default": "Scroller"
     },
     "sortFields": {
@@ -61,6 +73,14 @@
     "sortDirections": {
       "asc": "Stigande",
       "desc": "Fallande"
+    },
+    "upNextModes": {
+      "nextInSeries": "Nästa bok i serien",
+      "firstUnread": "Första olästa i serien"
+    },
+    "readAgainSorts": {
+      "random": "Slumpmässig",
+      "recentlyFinished": "Nyligen avslutade"
     }
   }
 }

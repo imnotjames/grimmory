@@ -15,6 +15,9 @@
     "recentlyAdded": "Recent toegevoegd",
     "discoverNew": "Ontdek iets nieuws",
     "magicShelf": "Magische plank",
+    "upNext": "Volgende",
+    "readAgain": "Opnieuw lezen",
+    "recommendations": "Aanbevelingen",
     "default": "Scroller"
   },
   "settings": {
@@ -31,12 +34,21 @@
     "maxItems": "Max. items",
     "addScroller": "Scroller toevoegen",
     "resetToDefault": "Naar standaard resetten",
+    "upNextLabel": "Boekselectie",
+    "selectMode": "Selecteer modus",
+    "readAgainLabel": "Sorteervolgorde",
+    "selectSorting": "Selecteer sortering",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
     "scrollerTypes": {
       "lastRead": "Verder lezen",
       "lastListened": "Verder luisteren",
       "latestAdded": "Recent toegevoegd",
       "random": "Ontdek iets nieuws",
       "magicShelf": "Magische plank",
+      "upNext": "Volgende",
+      "readAgain": "Opnieuw lezen",
+      "recommendations": "Aanbevelingen",
       "default": "Scroller"
     },
     "sortFields": {
@@ -61,6 +73,14 @@
     "sortDirections": {
       "asc": "Oplopend",
       "desc": "Aflopend"
+    },
+    "upNextModes": {
+      "nextInSeries": "Volgende boek in serie",
+      "firstUnread": "Eerste ongelezen in serie"
+    },
+    "readAgainSorts": {
+      "random": "Willekeurig",
+      "recentlyFinished": "Recent voltooid"
     }
   }
 }

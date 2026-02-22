@@ -15,6 +15,9 @@
     "recentlyAdded": "Недавно добавленные",
     "discoverNew": "Откройте для себя что-то новое",
     "magicShelf": "Умная полка",
+    "upNext": "Далее",
+    "readAgain": "Перечитать",
+    "recommendations": "Рекомендации",
     "default": "Лента"
   },
   "settings": {
@@ -31,12 +34,21 @@
     "maxItems": "Макс. элементов",
     "addScroller": "Добавить ленту",
     "resetToDefault": "Сбросить по умолчанию",
+    "upNextLabel": "Выбор книги",
+    "selectMode": "Выберите режим",
+    "readAgainLabel": "Порядок сортировки",
+    "selectSorting": "Выберите сортировку",
+    "cancel": "Отмена",
+    "save": "Сохранить",
     "scrollerTypes": {
       "lastRead": "Продолжить чтение",
       "lastListened": "Продолжить прослушивание",
       "latestAdded": "Недавно добавленные",
       "random": "Откройте для себя что-то новое",
       "magicShelf": "Умная полка",
+      "upNext": "Далее",
+      "readAgain": "Перечитать",
+      "recommendations": "Рекомендации",
       "default": "Лента"
     },
     "sortFields": {
@@ -61,6 +73,14 @@
     "sortDirections": {
       "asc": "По возрастанию",
       "desc": "По убыванию"
+    },
+    "upNextModes": {
+      "nextInSeries": "Следующая книга в серии",
+      "firstUnread": "Первая непрочитанная в серии"
+    },
+    "readAgainSorts": {
+      "random": "Случайно",
+      "recentlyFinished": "Недавно завершенные"
     }
   }
 }

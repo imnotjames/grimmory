@@ -15,6 +15,9 @@
     "recentlyAdded": "Añadidos recientemente",
     "discoverNew": "Descubre algo nuevo",
     "magicShelf": "Estante mágico",
+    "upNext": "Próximo",
+    "readAgain": "Leer de nuevo",
+    "recommendations": "Recomendaciones",
     "default": "Carrusel"
   },
   "settings": {
@@ -31,12 +34,21 @@
     "maxItems": "Máximo de elementos",
     "addScroller": "Añadir carrusel",
     "resetToDefault": "Restablecer valores",
+    "upNextLabel": "Selección de libro",
+    "selectMode": "Seleccionar modo",
+    "readAgainLabel": "Orden de clasificación",
+    "selectSorting": "Seleccionar orden",
+    "cancel": "Cancelar",
+    "save": "Guardar",
     "scrollerTypes": {
       "lastRead": "Seguir leyendo",
       "lastListened": "Seguir escuchando",
       "latestAdded": "Añadidos recientemente",
       "random": "Descubre algo nuevo",
       "magicShelf": "Estante mágico",
+      "upNext": "Próximo",
+      "readAgain": "Leer de nuevo",
+      "recommendations": "Recomendaciones",
       "default": "Carrusel"
     },
     "sortFields": {
@@ -61,6 +73,14 @@
     "sortDirections": {
       "asc": "Ascendente",
       "desc": "Descendente"
+    },
+    "upNextModes": {
+      "nextInSeries": "Siguiente libro en la serie",
+      "firstUnread": "Primer libro no leído en la serie"
+    },
+    "readAgainSorts": {
+      "random": "Aleatorio",
+      "recentlyFinished": "Recientemente terminado"
     }
   }
 }

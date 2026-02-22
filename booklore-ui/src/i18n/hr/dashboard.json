@@ -15,6 +15,9 @@
     "recentlyAdded": "Nedavno dodano",
     "discoverNew": "Otkrijte nešto novo",
     "magicShelf": "Čarobna polica",
+    "upNext": "Slijedeće",
+    "readAgain": "Čitaj ponovo",
+    "recommendations": "Preporuke",
     "default": "Klizač"
   },
   "settings": {
@@ -31,12 +34,21 @@
     "maxItems": "Maks. stavki",
     "addScroller": "Dodaj klizač",
     "resetToDefault": "Vrati na zadano",
+    "upNextLabel": "Odabir knjige",
+    "selectMode": "Odaberite način",
+    "readAgainLabel": "Redoslijed sortiranja",
+    "selectSorting": "Odaberite sortiranje",
+    "cancel": "Odustani",
+    "save": "Spremi",
     "scrollerTypes": {
       "lastRead": "Nastavi čitanje",
       "lastListened": "Nastavi slušanje",
       "latestAdded": "Nedavno dodano",
       "random": "Otkrijte nešto novo",
       "magicShelf": "Čarobna polica",
+      "upNext": "Slijedeće",
+      "readAgain": "Čitaj ponovo",
+      "recommendations": "Preporuke",
       "default": "Klizač"
     },
     "sortFields": {
@@ -61,6 +73,14 @@
     "sortDirections": {
       "asc": "Uzlazno",
       "desc": "Silazno"
+    },
+    "upNextModes": {
+      "nextInSeries": "Slijedeća knjiga u serijalu",
+      "firstUnread": "Prva nepročitana u serijalu"
+    },
+    "readAgainSorts": {
+      "random": "Nasumično",
+      "recentlyFinished": "Nedavno završeno"
     }
   }
 }
