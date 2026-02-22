@@ -1,3 +1,10 @@
+## [1.21.7](https://gitlab.worldteacher.dev/WorldTeacher/wt-booklore/compare/1.21.6...1.21.7) (2026-02-22)
+
+
+### Bug Fixes
+
+* **scrollers:** re-add smore scroller types ([2e5cdae](https://gitlab.worldteacher.dev/WorldTeacher/wt-booklore/commit/2e5cdaebc5b52dfc298bd6d7ae88213ca478672d))
+
 ## [1.21.6](https://gitlab.worldteacher.dev/WorldTeacher/wt-booklore/compare/1.21.5...1.21.6) (2026-02-22)
 
 
