@@ -32,7 +32,7 @@ COPY --from=angular-build /angular-app/dist/booklore/browser /springboot-app/src
 
 # Inject version into application.yaml using yq
 ARG APP_VERSION
-ENV ARG_VERSION
+ENV APP_VERSION=${APP_VERSION}
 RUN apk add --no-cache yq && \
     yq eval '.app.version = strenv(APP_VERSION)' -i /springboot-app/src/main/resources/application.yaml
 
@@ -44,8 +44,8 @@ FROM docker.io/library/eclipse-temurin:25-jre-alpine
 
 ARG APP_VERSION
 ARG APP_REVISION
-ENV APP_VERSION
-ENV APP_REVISION
+ENV APP_VERSION=${APP_VERSION}
+ENV APP_REVISION=${APP_REVISION}
 
 # Set OCI labels
 LABEL org.opencontainers.image.title="WT-BookLore" \
