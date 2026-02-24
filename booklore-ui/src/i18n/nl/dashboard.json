@@ -1,11 +1,11 @@
 {
   "main": {
-    "pageTitle": "Dashboard",
-    "welcomeTitle": "Welkom bij BookLore!",
-    "welcomeSubtitle": "Laten we uw eerste bibliotheek aanmaken",
-    "welcomeDescription": "Een bibliotheek is waar al uw boeken leven. Begin vandaag nog met het opbouwen van uw digitale collectie!",
-    "createLibrary": "Uw bibliotheek aanmaken",
-    "customizeDashboard": "Dashboard aanpassen"
+    "pageTitle": "",
+    "welcomeTitle": "",
+    "welcomeSubtitle": "",
+    "welcomeDescription": "",
+    "createLibrary": "",
+    "customizeDashboard": ""
   },
   "scroller": {
     "noBooksFound": "Geen boeken gevonden voor deze scroller.",
@@ -52,23 +52,23 @@
       "default": "Scroller"
     },
     "sortFields": {
-      "title": "Titel",
-      "fileName": "Bestandsnaam",
-      "filePath": "Bestandspad",
-      "addedOn": "Datum toegevoegd",
-      "author": "Auteur",
-      "authorSurnameVorname": "Auteur (Achternaam)",
-      "seriesName": "Reeksnaam",
-      "seriesNumber": "Reeksnummer",
-      "personalRating": "Persoonlijke beoordeling",
-      "publisher": "Uitgever",
-      "publishedDate": "Publicatiedatum",
-      "lastReadTime": "Laatst gelezen",
-      "readStatus": "Leesstatus",
-      "dateFinished": "Datum voltooid",
-      "readingProgress": "Leesvoortgang",
-      "bookType": "Boektype",
-      "pageCount": "Pagina's"
+      "title": "",
+      "fileName": "",
+      "filePath": "",
+      "addedOn": "",
+      "author": "",
+      "authorSurnameVorname": "",
+      "seriesName": "",
+      "seriesNumber": "",
+      "personalRating": "",
+      "publisher": "",
+      "publishedDate": "",
+      "lastReadTime": "",
+      "readStatus": "",
+      "dateFinished": "",
+      "readingProgress": "",
+      "bookType": "",
+      "pageCount": ""
     },
     "sortDirections": {
       "asc": "Oplopend",
