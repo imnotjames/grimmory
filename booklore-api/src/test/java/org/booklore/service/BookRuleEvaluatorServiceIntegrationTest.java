@@ -243,19 +243,23 @@ class BookRuleEvaluatorServiceIntegrationTest {
 
         @Test
         void thisPeriod_year_matchesThisYearBook() {
+            LocalDate today = LocalDate.now();
+            LocalDate firstOfYear = today.withDayOfYear(1);
+            LocalDate lastYear = firstOfYear.minusYears(1);
+
             BookEntity thisYear = createBook("This Year Book");
-            thisYear.setAddedOn(Instant.now().minus(10, ChronoUnit.DAYS));
+            thisYear.setAddedOn(firstOfYear.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
             em.merge(thisYear);
 
-            BookEntity lastYear = createBook("Last Year Book");
-            lastYear.setAddedOn(Instant.now().minus(400, ChronoUnit.DAYS));
-            em.merge(lastYear);
+            BookEntity lastYearBook = createBook("Last Year Book");
+            lastYearBook.setAddedOn(lastYear.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
+            em.merge(lastYearBook);
             em.flush();
             em.clear();
 
             List<Long> ids = findMatchingIds(singleRule(RuleField.ADDED_ON, RuleOperator.THIS_PERIOD, "year"));
             assertThat(ids).contains(thisYear.getId());
-            assertThat(ids).doesNotContain(lastYear.getId());
+            assertThat(ids).doesNotContain(lastYearBook.getId());
         }
 
         @Test
@@ -623,12 +627,16 @@ class BookRuleEvaluatorServiceIntegrationTest {
 
         @Test
         void thisPeriod_month_matchesThisMonthBook() {
+            LocalDate today = LocalDate.now();
+            LocalDate firstOfMonth = today.withDayOfMonth(1);
+            LocalDate lastMonth = firstOfMonth.minusMonths(1);
+
             BookEntity thisMonth = createBook("This Month Book");
-            thisMonth.setAddedOn(Instant.now().minus(1, ChronoUnit.DAYS));
+            thisMonth.setAddedOn(firstOfMonth.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
             em.merge(thisMonth);
 
             BookEntity notThisMonth = createBook("Not This Month Book");
-            notThisMonth.setAddedOn(Instant.now().minus(60, ChronoUnit.DAYS));
+            notThisMonth.setAddedOn(lastMonth.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant());
             em.merge(notThisMonth);
             em.flush();
             em.clear();
@@ -1464,12 +1472,16 @@ class BookRuleEvaluatorServiceIntegrationTest {
 
         @Test
         void thisPeriod_publishedDate_matchesThisYearBook() {
+            LocalDate today = LocalDate.now();
+            LocalDate firstOfYear = today.withDayOfYear(1);
+            LocalDate twoYearsAgo = firstOfYear.minusYears(2);
+
             BookEntity recentBook = createBook("This Year Published");
-            recentBook.getMetadata().setPublishedDate(LocalDate.now().minusDays(10));
+            recentBook.getMetadata().setPublishedDate(firstOfYear);
             em.merge(recentBook.getMetadata());
 
             BookEntity oldBook = createBook("Two Years Ago Published");
-            oldBook.getMetadata().setPublishedDate(LocalDate.now().minusYears(2));
+            oldBook.getMetadata().setPublishedDate(twoYearsAgo);
             em.merge(oldBook.getMetadata());
             em.flush();
             em.clear();

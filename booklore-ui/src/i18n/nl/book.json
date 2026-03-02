@@ -831,10 +831,6 @@
       "FILENAME": ""
     },
     "confirm": {
-      "deleteHeader": "",
-      "deleteMessage": ""
-    },
-    "confirm": {
       "deleteHeader": "Verwijdering bevestigen",
       "deleteMessage": "Dit verwijdert permanent {{ count }} boek(en) en hun bestanden van schijf. Dit kan niet ongedaan worden gemaakt."
     },
