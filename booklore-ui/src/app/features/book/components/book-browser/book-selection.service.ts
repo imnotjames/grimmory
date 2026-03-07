@@ -86,6 +86,7 @@ export class BookSelectionService {
     const current = new Set(this.selectedBooksSubject.value);
     for (const book of this.currentBooks) {
       if (book.seriesBooks && book.seriesBooks.length > 0) {
+        // Collapsed series representative — select all books in the series
         book.seriesBooks.forEach(b => current.add(b.id));
       } else {
         current.add(book.id);

@@ -17,7 +17,6 @@ workflow:
       when: always
     - when: never
 
-
 include:
   # semantic-release only on main push (never on schedule/MR/tag)
   - component: "$CI_SERVER_FQDN/to-be-continuous/semantic-release/gitlab-ci-semrel@4.0"
@@ -50,6 +49,7 @@ include:
       build-cache-disabled: true
 
       snapshot-image: "$CI_REGISTRY_IMAGE/mergerequests:mr-$CI_MERGE_REQUEST_IID"
+
   # Docker for TAG pipelines
   - component: "$CI_SERVER_FQDN/to-be-continuous/docker/gitlab-ci-docker@8.0"
     rules:
