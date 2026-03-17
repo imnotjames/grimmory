@@ -16,7 +16,6 @@ public class AppProperties {
     private RemoteAuth remoteAuth;
     private Swagger swagger = new Swagger();
     private Boolean forceDisableOidc = false;
-    private Telemetry telemetry = new Telemetry();
 
     /**
      * Type of disk storage where library files are stored.
@@ -43,11 +42,5 @@ public class AppProperties {
         private String headerGroups;
         private String adminGroup;
         private String groupsDelimiter = "\\s+";  // Default to whitespace for backward compatibility
-    }
-
-    @Getter
-    @Setter
-    public static class Telemetry {
-        private String baseUrl = "https://telemetry.booklore.org";
     }
 }
