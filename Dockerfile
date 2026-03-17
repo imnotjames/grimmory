@@ -40,20 +40,6 @@ RUN --mount=type=cache,target=/home/gradle/.gradle \
 # Stage 3: Final image
 FROM eclipse-temurin:25-jre-alpine
 
-ARG APP_VERSION
-ARG APP_REVISION
-
-# Set OCI labels
-LABEL org.opencontainers.image.title="BookLore" \
-      org.opencontainers.image.description="BookLore: A self-hosted, multi-user digital library with smart shelves, auto metadata, Kobo & KOReader sync, BookDrop imports, OPDS support, and a built-in reader for EPUB, PDF, and comics." \
-      org.opencontainers.image.source="https://github.com/booklore-app/booklore" \
-      org.opencontainers.image.url="https://github.com/booklore-app/booklore" \
-      org.opencontainers.image.documentation="https://booklore.org/docs/getting-started" \
-      org.opencontainers.image.version=$APP_VERSION \
-      org.opencontainers.image.revision=$APP_REVISION \
-      org.opencontainers.image.licenses="GPL-3.0" \
-      org.opencontainers.image.base.name="docker.io/library/eclipse-temurin:25-jre-alpine"
-
 ENV JAVA_TOOL_OPTIONS="-XX:+UseG1GC -XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication -XX:MaxRAMPercentage=75.0 -XX:+ExitOnOutOfMemoryError"
 
 ARG TARGETARCH
