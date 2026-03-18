@@ -1,9 +1,12 @@
-name: Publish Release Image
+name: Publish Images
 
 on:
   release:
     types:
       - "published"
+  push:
+    branches:
+      - main
 
 jobs:
   build-frontend:
@@ -67,6 +70,7 @@ jobs:
           APP_VERSION: ${{github.event.release.tag_name}}
         run: |
           APP_VERSION=${APP_VERSION#v}
+          APP_VERSION=${APP_VERSION:-0.0.0-snasphot}
 
           sed -i "s/version: \"development\"/version: \"$APP_VERSION\"/" \
             booklore-api/src/main/resources/application.yaml
@@ -77,6 +81,7 @@ jobs:
         working-directory: ./booklore-api
         run: |
           APP_VERSION=${APP_VERSION#v}
+          APP_VERSION=${APP_VERSION:-0.0.0-snasphot}
 
           ./gradlew \
             build \
@@ -142,6 +147,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   attach-to-release:
+    if: ${{ github.event_name == 'release' }}
     runs-on: ubuntu-latest
     needs: build-backend
     permissions:
