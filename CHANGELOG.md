@@ -1,3 +1,38 @@
+## [2.2.7](https://github.com/grimmory-tools/grimmory/compare/v2.2.6...v2.2.7) (2026-03-21)
+
+### Bug Fixes
+
+* **api:** fix potential memory leaks in file processing ([031e8ae](https://github.com/grimmory-tools/grimmory/commit/031e8ae257c3354cacce2d17c8c6bc35ce80badb))
+* **ci:** correct artifact download action pin ([37ca101](https://github.com/grimmory-tools/grimmory/commit/37ca101dd4bd08ccfe6d4d2395ecc71298cc323d))
+* **ci:** publish PR test results from workflow_run ([11a76bf](https://github.com/grimmory-tools/grimmory/commit/11a76bffe12f80d0271e3626291cfbd275346727))
+* drop telemetry from app ([#52](https://github.com/grimmory-tools/grimmory/issues/52)) ([4d82cb7](https://github.com/grimmory-tools/grimmory/commit/4d82cb718833a2a4e08ee2f18b2ff3ab9b043dd6))
+* **ui:** repair frontend compile after rebrand ([fea1ec6](https://github.com/grimmory-tools/grimmory/commit/fea1ec6930ae64445c6d7e7b38bdc4e7925b51c1))
+
+### Refactors
+
+* **build:** rename frontend dist output to grimmory ([ecf388f](https://github.com/grimmory-tools/grimmory/commit/ecf388f7a2086fbd1d8737a972926d70ec3190d4))
+* **i18n:** rename booklore translation keys to grimmory ([eb94afa](https://github.com/grimmory-tools/grimmory/commit/eb94afa7ad600eaa2535802583f21937bd1ae2c0))
+* **metadata:** move default parser from Amazon to Goodreads ([e252122](https://github.com/grimmory-tools/grimmory/commit/e252122bc5a89c75af85ddbaae66a14d368479f9))
+* pull kepubify & ffprobe during build ([#50](https://github.com/grimmory-tools/grimmory/issues/50)) ([1c15629](https://github.com/grimmory-tools/grimmory/commit/1c15629a10ba2e2ad78455f118e8c937b585b157))
+* **ui:** rebrand frontend surfaces to grimmory ([d786dd8](https://github.com/grimmory-tools/grimmory/commit/d786dd8ccbebaa360385dce834816bcb6aaf3b2f))
+
+### Chores
+
+* **api:** remove the custom startup banner ([98c9b1a](https://github.com/grimmory-tools/grimmory/commit/98c9b1ae653c2140b7b2ab86b5511be3376bfe43))
+* **deps:** bump flatted from 3.4.1 to 3.4.2 in /booklore-ui ([#73](https://github.com/grimmory-tools/grimmory/issues/73)) ([c4bd0c7](https://github.com/grimmory-tools/grimmory/commit/c4bd0c779ae398968dbdea6d566693ed57eab3eb))
+* **funding:** point support links at opencollective ([55c0ac0](https://github.com/grimmory-tools/grimmory/commit/55c0ac089966b8586e7d7bdef1fc469049903d08))
+* remove old verbose PR template, replace with temporary more low-key one. ([#84](https://github.com/grimmory-tools/grimmory/issues/84)) ([b868526](https://github.com/grimmory-tools/grimmory/commit/b8685268a9a9730416a209201a70c284cee590c5))
+* **ui:** drop financial support dialog ([#21](https://github.com/grimmory-tools/grimmory/issues/21)) ([62be6b1](https://github.com/grimmory-tools/grimmory/commit/62be6b152cbd42910620fdeae1f35783ea258b27))
+
+### Documentation
+
+* updated supported file formats in README.md ([#68](https://github.com/grimmory-tools/grimmory/issues/68)) ([f912e80](https://github.com/grimmory-tools/grimmory/commit/f912e802f97263206308817acd5bab84a5321dcf))
+
+### Style
+
+* **i18n:** normalize translation json formatting ([#89](https://github.com/grimmory-tools/grimmory/issues/89)) ([857290d](https://github.com/grimmory-tools/grimmory/commit/857290d215b518e61c9b3a058ae5d40d5e214672))
+* **ui:** simplify the topbar logo branding ([0416d48](https://github.com/grimmory-tools/grimmory/commit/0416d48a6c441792b4c9607b3e472159c879d439))
+
 ## [2.2.6](https://github.com/grimmory-tools/grimmory/compare/v2.2.5...v2.2.6) (2026-03-20)
 
 ### Bug Fixes
