@@ -9,8 +9,6 @@ import org.booklore.service.metadata.writer.CbxMetadataWriter;
 import org.booklore.service.reader.CbxReaderService;
 import org.booklore.repository.BookRepository;
 import org.booklore.service.appsettings.AppSettingService;
-import org.booklore.util.UnrarHelper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -30,19 +27,11 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 
 /**
  * Integration tests that feed a real RAR5 archive into the service layer
- * and verify junrar fails then the unrar CLI fallback kicks in.
  */
 @ExtendWith(MockitoExtension.class)
 class Rar5FallbackIntegrationTest {
 
     private static final Path RAR5_CBR = Path.of("src/test/resources/cbx/test-rar5.cbr");
-
-    @BeforeAll
-    static void checkUnrarAvailable() {
-        assumeThat(UnrarHelper.isAvailable())
-                .as("unrar binary must be on PATH to run these tests")
-                .isTrue();
-    }
 
     // -- CbxMetadataExtractor: extractMetadata fallback --
 
