@@ -158,7 +158,7 @@ public class AudiobookProcessor extends AbstractFileProcessor implements BookFil
                     .map(java.nio.file.Path::toFile)
                     .orElse(null);
         } else {
-            return new File(FileUtils.getBookFullPath(bookEntity));
+            return FileUtils.getBookFullPath(bookEntity).toFile();
         }
     }
 
