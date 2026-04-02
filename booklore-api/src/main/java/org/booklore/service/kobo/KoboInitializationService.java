@@ -3,6 +3,7 @@ package org.booklore.service.kobo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.booklore.model.dto.kobo.KoboResources;
+import org.booklore.service.appsettings.AppSettingService;
 import org.booklore.util.kobo.KoboUrlBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class KoboInitializationService {
 
+    private final AppSettingService appSettingService;
     private final KoboServerProxy koboServerProxy;
     private final KoboResourcesComponent koboResourcesComponent;
     private final KoboUrlBuilder koboUrlBuilder;
@@ -99,21 +101,27 @@ public class KoboInitializationService {
             Map.entry("user_wishlist", new String[]{"v1", "user", "wishlist"})
     );
 
+    private boolean isForwardingToKoboStore() {
+        return appSettingService.getAppSettings().getKoboSettings().isForwardToKoboStore();
+    }
+
     public ResponseEntity<KoboResources> initialize(String token) throws JacksonException {
         ObjectNode resources = null;
 
-        try {
-            ResponseEntity<JsonNode> response = koboServerProxy.proxyCurrentRequest(null, false);
-            JsonNode body = response.getBody();
-            JsonNode bodyResources = body == null ? null : body.get("Resources");
+        if (isForwardingToKoboStore()) {
+            try {
+                ResponseEntity<JsonNode> response = koboServerProxy.proxyCurrentRequest(null, false);
+                JsonNode body = response.getBody();
+                JsonNode bodyResources = body == null ? null : body.get("Resources");
 
-            if (bodyResources instanceof ObjectNode objectNode) {
-                resources = objectNode;
-            } else {
-                log.warn("Unexpected response from Kobo /v1/initialization, fallback to noproxy");
+                if (bodyResources instanceof ObjectNode objectNode) {
+                    resources = objectNode;
+                } else {
+                    log.warn("Unexpected response from Kobo /v1/initialization, fallback to noproxy");
+                }
+            } catch (Exception e) {
+                log.warn("Failed to get response from Kobo /v1/initialization, fallback to noproxy", e);
             }
-        } catch (Exception e) {
-            log.warn("Failed to get response from Kobo /v1/initialization, fallback to noproxy", e);
         }
 
         if (resources == null) {

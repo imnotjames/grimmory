@@ -11,6 +11,7 @@ import org.booklore.model.entity.KoboSnapshotBookEntity;
 import org.booklore.model.entity.UserBookProgressEntity;
 import org.booklore.repository.KoboDeletedBookProgressRepository;
 import org.booklore.repository.UserBookProgressRepository;
+import org.booklore.service.appsettings.AppSettingService;
 import org.booklore.util.RequestUtils;
 import org.booklore.util.kobo.BookloreSyncTokenGenerator;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,7 @@ public class KoboLibrarySyncService {
     private final KoboServerProxy koboServerProxy;
     private final ObjectMapper objectMapper;
     private final KoboSettingsService koboSettingsService;
+    private final AppSettingService appSettingService;
 
     private Collection<Entitlement> getEntitlementsFromKoboStoreResponse(ResponseEntity<JsonNode> koboStoreResponse) {
          return Optional.ofNullable(koboStoreResponse.getBody())
@@ -62,6 +64,11 @@ public class KoboLibrarySyncService {
                     }
                 })
                 .orElse(Collections.emptyList());
+    }
+
+
+    private boolean isForwardingToKoboStore() {
+        return appSettingService.getAppSettings().getKoboSettings().isForwardToKoboStore();
     }
 
     @Transactional
@@ -134,7 +141,7 @@ public class KoboLibrarySyncService {
             }
         }
 
-        if (!shouldContinueSync) {
+        if (!shouldContinueSync && isForwardingToKoboStore()) {
             ResponseEntity<JsonNode> koboStoreResponse = null;
             try {
                 koboStoreResponse = koboServerProxy.proxyCurrentRequest(null, true);

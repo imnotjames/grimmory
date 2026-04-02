@@ -1,6 +1,9 @@
 package org.booklore.service.kobo;
 
 import org.booklore.model.dto.kobo.KoboResources;
+import org.booklore.model.dto.settings.AppSettings;
+import org.booklore.model.dto.settings.KoboSettings;
+import org.booklore.service.appsettings.AppSettingService;
 import org.booklore.util.kobo.KoboUrlBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +31,9 @@ import static org.mockito.Mockito.*;
 class KoboInitializationServiceTest {
 
     @Mock
+    private AppSettingService appSettingService;
+
+    @Mock
     private KoboServerProxy koboServerProxy;
 
     @Mock
@@ -41,12 +47,25 @@ class KoboInitializationServiceTest {
 
     private final ObjectMapper objectMapper = JsonMapper.builder().build();
 
+    void mockWithForwardingToKoboStore(boolean enabled) {
+        KoboSettings koboSettings = KoboSettings.builder()
+                .forwardToKoboStore(enabled)
+                .build();
+
+        AppSettings appSettings = AppSettings.builder()
+                        .koboSettings(koboSettings)
+                        .build();
+
+        when(appSettingService.getAppSettings()).thenReturn(appSettings);
+    }
+
     @BeforeEach
     void setUp() {
         when(koboUrlBuilder.baseBuilder()).thenReturn(UriComponentsBuilder.fromUriString("http://localhost:8080"));
         when(koboUrlBuilder.withBaseUrl(eq("test-token"), any())).thenReturn("http://localhost:8080/with-base-url");
         when(koboUrlBuilder.imageUrlTemplate("test-token")).thenReturn("http://localhost:8080/kobo/test-token/image/{ImageId}/{Width}/{Height}/false/image.jpg");
         when(koboUrlBuilder.imageUrlQualityTemplate("test-token")).thenReturn("http://localhost:8080/kobo/test-token/image/{ImageId}/{Width}/{Height}/{Quality}/{IsGreyscale}/image.jpg");
+        mockWithForwardingToKoboStore(true);
     }
 
     @Nested
@@ -129,6 +148,31 @@ class KoboInitializationServiceTest {
 
             assertEquals(200, response.getStatusCode().value());
             verify(koboResourcesComponent).getResources();
+        }
+
+        @Test
+        @DisplayName("Should fall back to local resources when proxy is disabled")
+        void initialize_fallsBackOnProxyDisabled() throws Exception {
+            mockWithForwardingToKoboStore(false);
+
+            ObjectNode resources = objectMapper.createObjectNode();
+            resources.put("example", "https://storeapi.kobo.com/v1/library/sync");
+            ObjectNode requestBody = objectMapper.createObjectNode();
+            requestBody.set("Resources", resources);
+
+            when(koboServerProxy.proxyCurrentRequest(null, false))
+                    .thenReturn(ResponseEntity.ok(requestBody));
+
+            ObjectNode fallbackResources = objectMapper.createObjectNode();
+            fallbackResources.put("example", "http://127.0.0.1/v1/library/sync");
+            when(koboResourcesComponent.getResources()).thenReturn(fallbackResources);
+
+            ResponseEntity<KoboResources> response = service.initialize("test-token");
+
+            var body = response.getBody();
+            assert body != null;
+
+            assertEquals("http://127.0.0.1/v1/library/sync", body.getResources().get("example").asText());
         }
 
         @Test
