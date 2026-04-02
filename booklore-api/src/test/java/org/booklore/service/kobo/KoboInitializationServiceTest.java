@@ -170,8 +170,8 @@ class KoboInitializationServiceTest {
             ResponseEntity<KoboResources> response = service.initialize("test-token");
 
             var body = response.getBody();
-            assert body != null;
 
+            assertNotNull(body);
             assertEquals("http://127.0.0.1/v1/library/sync", body.getResources().get("example").asText());
         }
 
