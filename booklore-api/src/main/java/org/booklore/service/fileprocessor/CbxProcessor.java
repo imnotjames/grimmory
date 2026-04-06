@@ -112,6 +112,10 @@ public class CbxProcessor extends AbstractFileProcessor implements BookFileProce
         try{
             byte[] coverBytes = cbxMetadataExtractor.extractCover(path);
 
+            if (coverBytes == null) {
+                return Optional.empty();
+            }
+
             return Optional.ofNullable(FileService.readImage(new ByteArrayInputStream(coverBytes)));
         } catch (Exception e) {
             log.warn("Error reading archive cover {}: {}", path.getFileName(), e.getMessage());
