@@ -19,16 +19,26 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @AllArgsConstructor
-public abstract class AbstractQueryParameterJwtFilter extends OncePerRequestFilter {
+public abstract class AbstractMediaJwtFilter extends OncePerRequestFilter {
 
     protected final JwtUtils jwtUtils;
     protected final UserRepository userRepository;
     protected final BookLoreUserTransformer bookLoreUserTransformer;
 
+    private String extractTokenFromHeader(HttpServletRequest request) {
+        String bearer = request.getHeader("Authorization");
+        return (bearer != null && bearer.startsWith("Bearer ")) ? bearer.substring(7) : null;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        String token = request.getParameter("token");
+
+        String token = extractTokenFromHeader(request);
+        if (token == null) {
+            token = request.getParameter("token");
+        }
+
         if (token == null || token.isEmpty()) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing authentication token");
             return;

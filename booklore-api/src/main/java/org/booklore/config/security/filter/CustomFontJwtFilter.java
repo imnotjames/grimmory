@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomFontJwtFilter extends AbstractQueryParameterJwtFilter {
+public class CustomFontJwtFilter extends AbstractMediaJwtFilter {
 
     public CustomFontJwtFilter(
             JwtUtils jwtUtils,

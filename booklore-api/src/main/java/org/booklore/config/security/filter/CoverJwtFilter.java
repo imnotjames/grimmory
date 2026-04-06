@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CoverJwtFilter extends AbstractQueryParameterJwtFilter {
+public class CoverJwtFilter extends AbstractMediaJwtFilter {
 
     public CoverJwtFilter(
             JwtUtils jwtUtils,
