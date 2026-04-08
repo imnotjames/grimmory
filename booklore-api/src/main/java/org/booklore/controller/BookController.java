@@ -32,7 +32,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -201,10 +200,8 @@ public class BookController {
     @GetMapping("/{bookId}/download-all")
     @PreAuthorize("@securityUtil.canDownload() or @securityUtil.isAdmin()")
     @CheckBookAccess(bookIdParam = "bookId")
-    public void downloadAllBookFiles(
-            @Parameter(description = "ID of the book") @PathVariable("bookId") Long bookId,
-            HttpServletResponse response) {
-        bookService.downloadAllBookFiles(bookId, response);
+    public ResponseEntity<Resource> downloadAllBookFiles(@Parameter(description = "ID of the book") @PathVariable("bookId") Long bookId) {
+        return bookService.downloadAllBookFiles(bookId);
     }
 
     @Operation(summary = "Get viewer settings", description = "Retrieve viewer settings for a specific book file.")

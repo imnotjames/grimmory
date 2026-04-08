@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -150,7 +149,8 @@ public class KoboController {
     @PutMapping("/v1/library/{bookId}/state")
     public ResponseEntity<?> updateState(
             @Parameter(description = "Book ID") @PathVariable String bookId,
-            @Parameter(description = "Reading state update body") @RequestBody KoboReadingStateRequest body) {
+            @Parameter(description = "Reading state update body") @RequestBody KoboReadingStateRequest body
+    ) {
         if (StringUtils.isNumeric(bookId)) {
             return ResponseEntity.ok(koboReadingStateService.saveReadingState(body.getReadingStates()));
         } else if (isForwardingToKoboStore()) {
@@ -173,12 +173,12 @@ public class KoboController {
     @Operation(summary = "Download Kobo book", description = "Download a book from the Kobo library.")
     @ApiResponse(responseCode = "200", description = "Book downloaded successfully")
     @GetMapping("/v1/books/{bookId}/download")
-    public void downloadBook(@Parameter(description = "Book ID") @PathVariable String bookId, HttpServletResponse response) {
+    public ResponseEntity<Resource> downloadBook(@Parameter(description = "Book ID") @PathVariable String bookId) {
         if (!StringUtils.isNumeric(bookId)) {
             throw ApiError.GENERIC_NOT_FOUND.createException("Not Found");
         }
 
-        bookDownloadService.downloadKoboBook(Long.parseLong(bookId), response);
+        return bookDownloadService.downloadKoboBook(Long.parseLong(bookId));
     }
 
     @Operation(summary = "Delete book from Kobo library", description = "Delete a book from the user's Kobo library.")

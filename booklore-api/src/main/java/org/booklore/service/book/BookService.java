@@ -1,6 +1,5 @@
 package org.booklore.service.book;
 
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.booklore.config.security.service.AuthenticationService;
@@ -22,11 +21,7 @@ import org.booklore.service.progress.ReadingProgressService;
 import org.booklore.util.BookUtils;
 import org.booklore.util.FileService;
 import org.booklore.util.FileUtils;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -347,8 +342,8 @@ public class BookService {
         return bookDownloadService.downloadBook(bookId);
     }
 
-    public void downloadAllBookFiles(Long bookId, HttpServletResponse response) {
-        bookDownloadService.downloadAllBookFiles(bookId, response);
+    public ResponseEntity<Resource> downloadAllBookFiles(Long bookId) {
+        return bookDownloadService.downloadAllBookFiles(bookId);
     }
 
     public ResponseEntity<Resource> getBookContent(long bookId) {
