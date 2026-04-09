@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -75,15 +74,10 @@ public class BookDownloadService {
             // Use FileSystemResource which properly handles file resources and closing
             Resource resource = new FileSystemResource(bookFile);
 
-            String encodedFilename = URLEncoder.encode(file.getFileName().toString(), StandardCharsets.UTF_8)
-                    .replace("+", "%20");
-            String fallbackFilename = NON_ASCII_PATTERN.matcher(file.getFileName().toString()).replaceAll("_");
-            String contentDisposition = String.format("attachment; filename=\"%s\"; filename*=UTF-8''%s",
-                    fallbackFilename, encodedFilename);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .contentLength(bookFile.length())
-                    .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, getContentDisposition(file))
                     .header(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate")
                     .header(HttpHeaders.PRAGMA, "no-cache")
                     .header(HttpHeaders.EXPIRES, "0")
@@ -119,15 +113,10 @@ public class BookDownloadService {
             File bookFile = file.toFile();
             Resource resource = new FileSystemResource(bookFile);
 
-            String encodedFilename = URLEncoder.encode(file.getFileName().toString(), StandardCharsets.UTF_8)
-                    .replace("+", "%20");
-            String fallbackFilename = NON_ASCII_PATTERN.matcher(file.getFileName().toString()).replaceAll("_");
-            String contentDisposition = String.format("attachment; filename=\"%s\"; filename*=UTF-8''%s",
-                    fallbackFilename, encodedFilename);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .contentLength(bookFile.length())
-                    .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, getContentDisposition(file))
                     .header(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate")
                     .header(HttpHeaders.PRAGMA, "no-cache")
                     .header(HttpHeaders.EXPIRES, "0")
@@ -136,6 +125,23 @@ public class BookDownloadService {
             log.error("Failed to download book file {}: {}", fileId, e.getMessage(), e);
             throw ApiError.FAILED_TO_DOWNLOAD_FILE.createException(fileId);
         }
+    }
+
+    private String getContentDisposition(File file) {
+        return getContentDisposition(file.getName());
+    }
+
+    private String getContentDisposition(Path path) {
+        return getContentDisposition(path.getFileName().toString());
+    }
+
+    private String getContentDisposition(String filename) {
+        String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8)
+                .replace("+", "%20");
+        String fallbackFilename = NON_ASCII_PATTERN.matcher(filename).replaceAll("_");
+
+        return String.format("attachment; filename=\"%s\"; filename*=UTF-8''%s",
+                fallbackFilename, encodedFilename);
     }
 
     public void downloadAllBookFiles(Long bookId, HttpServletResponse response) {
@@ -178,11 +184,8 @@ public class BookDownloadService {
         String zipFileName = safeTitle + ".zip";
 
         response.setContentType("application/zip");
-        String encodedFilename = URLEncoder.encode(zipFileName, StandardCharsets.UTF_8).replace("+", "%20");
-        String fallbackFilename = NON_ASCII_PATTERN.matcher(zipFileName).replaceAll("_");
-        String contentDisposition = String.format("attachment; filename=\"%s\"; filename*=UTF-8''%s",
-                fallbackFilename, encodedFilename);
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition);
+
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, getContentDisposition(zipFileName));
 
         try (ZipOutputStream zos = new ZipOutputStream(response.getOutputStream())) {
             for (BookFileEntity bookFile : allFiles) {
@@ -295,11 +298,7 @@ public class BookDownloadService {
     private void setResponseHeaders(HttpServletResponse response, File file) {
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
         response.setContentLengthLong(file.length());
-        String encodedFilename = URLEncoder.encode(file.getName(), StandardCharsets.UTF_8).replace("+", "%20");
-        String fallbackFilename = NON_ASCII_PATTERN.matcher(file.getName()).replaceAll("_");
-        String contentDisposition = String.format("attachment; filename=\"%s\"; filename*=UTF-8''%s",
-                fallbackFilename, encodedFilename);
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, contentDisposition);
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, getContentDisposition(file));
     }
 
     private void streamFileToResponse(File file, HttpServletResponse response) {
@@ -344,14 +343,10 @@ public class BookDownloadService {
         Resource resource = new org.springframework.core.io.ByteArrayResource(zipBytes);
 
         String zipFileName = folderName + ".zip";
-        String encodedFilename = URLEncoder.encode(zipFileName, StandardCharsets.UTF_8).replace("+", "%20");
-        String fallbackFilename = NON_ASCII_PATTERN.matcher(zipFileName).replaceAll("_");
-        String contentDisposition = String.format("attachment; filename=\"%s\"; filename*=UTF-8''%s",
-                fallbackFilename, encodedFilename);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf("application/zip"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .header(HttpHeaders.CONTENT_DISPOSITION, getContentDisposition(zipFileName))
                 .header(HttpHeaders.CONTENT_LENGTH, String.valueOf(zipBytes.length))
                 .header(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate")
                 .header(HttpHeaders.PRAGMA, "no-cache")
