@@ -341,10 +341,17 @@ public class BookDownloadService {
 
         try (ZipOutputStream zos = new ZipOutputStream(outputStream)) {
             for (var entryNameAndPath : entryNamesAndPaths) {
-                ZipEntry entry = new ZipEntry(entryNameAndPath.getKey());
-                zos.putNextEntry(entry);
-                Files.copy(entryNameAndPath.getValue(), zos);
-                zos.closeEntry();
+                String entryName = entryNameAndPath.getKey();
+                Path entryPath = entryNameAndPath.getValue();
+
+                try {
+                    ZipEntry entry = new ZipEntry(entryName);
+                    zos.putNextEntry(entry);
+                    Files.copy(entryPath, zos);
+                    zos.closeEntry();
+                } catch (Exception e) {
+                    log.error("Unable to write file {} to zip entry {}: {}", entryPath, entryPath, e.getMessage(), e);
+                }
             }
         }
     }
