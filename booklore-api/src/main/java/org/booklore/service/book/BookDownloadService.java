@@ -32,7 +32,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -40,8 +39,6 @@ import java.util.zip.ZipOutputStream;
 @AllArgsConstructor
 @Service
 public class BookDownloadService {
-
-    private static final Pattern NON_ASCII_PATTERN = Pattern.compile("[^\\x00-\\x7F]");
 
     private final BookRepository bookRepository;
     private final BookFileRepository bookFileRepository;
@@ -137,10 +134,7 @@ public class BookDownloadService {
     }
 
     private String getContentDisposition(String filename) {
-        String fallbackFilename = NON_ASCII_PATTERN.matcher(filename).replaceAll("_");
-
         return ContentDisposition.builder("attachment")
-                .filename(fallbackFilename)
                 .filename(filename, StandardCharsets.UTF_8)
                 .build()
                 .toString();
