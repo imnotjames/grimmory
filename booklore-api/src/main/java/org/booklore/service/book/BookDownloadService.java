@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -134,8 +135,11 @@ public class BookDownloadService {
     }
 
     private String getContentDisposition(String filename) {
+        Charset charset = filename.matches("\\p{ASCII}*") ?
+                StandardCharsets.US_ASCII : StandardCharsets.UTF_8;
+
         return ContentDisposition.builder("attachment")
-                .filename(filename, StandardCharsets.UTF_8)
+                .filename(filename, charset)
                 .build()
                 .toString();
     }
