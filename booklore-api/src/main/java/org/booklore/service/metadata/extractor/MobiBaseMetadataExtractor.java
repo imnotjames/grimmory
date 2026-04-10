@@ -32,6 +32,7 @@ public abstract class MobiBaseMetadataExtractor implements FileMetadataExtractor
     private static final Pattern DATE_DASH_FORMAT_PATTERN = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
     private static final Pattern CATEGORY_SEPARATOR_PATTERN = Pattern.compile("[;,]");
     private static final Pattern ISBN_INVALID_CHARS_PATTERN = Pattern.compile("[^0-9Xx]");
+    private static final Pattern ASIN_PATTERN = Pattern.compile("([A-Z0-9]{10})");
 
     protected abstract String getFormatName();
 
@@ -133,7 +134,13 @@ public abstract class MobiBaseMetadataExtractor implements FileMetadataExtractor
                         }
                     }
                     case EXTH_LANGUAGE -> builder.language(value.trim());
-                    case EXTH_ASIN -> builder.asin(value.trim());
+                    case EXTH_ASIN -> {
+                        if (ASIN_PATTERN.matcher(value.trim()).matches()) {
+                            builder.asin(value.trim());
+                        } else {
+                            log.debug("Ignoring invalid ASIN in mobi file {}: {}", file, value.trim());
+                        }
+                    }
                 }
             }
 
