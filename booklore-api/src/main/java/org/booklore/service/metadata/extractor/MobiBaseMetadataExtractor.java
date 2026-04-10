@@ -135,10 +135,11 @@ public abstract class MobiBaseMetadataExtractor implements FileMetadataExtractor
                     }
                     case EXTH_LANGUAGE -> builder.language(value.trim());
                     case EXTH_ASIN -> {
-                        if (ASIN_PATTERN.matcher(value.trim()).matches()) {
-                            builder.asin(value.trim());
+                        String possibleASIN = value.trim().toUpperCase();
+                        if (ASIN_PATTERN.matcher(possibleASIN).matches()) {
+                            builder.asin(possibleASIN);
                         } else {
-                            log.debug("Ignoring invalid ASIN in mobi file {}: {}", file, value.trim());
+                            log.debug("Ignoring invalid ASIN in mobi file {}", file);
                         }
                     }
                 }
