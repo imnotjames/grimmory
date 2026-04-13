@@ -157,6 +157,7 @@ public class OidcGroupMappingService {
             perms.setPermissionBulkResetKoReaderReadProgress(true);
             perms.setPermissionBulkResetBookReadStatus(true);
         } else if (!additive) {
+            perms.setPermissionAdmin(false);
             perms.setPermissionUpload(permissions.contains("permissionUpload"));
             perms.setPermissionDownload(permissions.contains("permissionDownload"));
             perms.setPermissionEditMetadata(permissions.contains("permissionEditMetadata"));
