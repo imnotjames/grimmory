@@ -1061,7 +1061,7 @@ public class AppBookService {
             case "publisher" -> "metadata.publisher";
             case "language" -> "metadata.language";
             case "publisheddate" -> "metadata.publishedDate";
-            case "lastreadtime" -> "lastReadTime";
+            case "lastreadtime" -> "userBookProgress.lastReadTime";
             case "pagecount" -> "metadata.pageCount";
             default -> "addedOn";
         };
