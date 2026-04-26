@@ -42,7 +42,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static org.booklore.model.enums.MetadataProvider.*;
+import static org.grimmory.model.enums.MetadataProvider.*;
 
 @Slf4j
 @AllArgsConstructor

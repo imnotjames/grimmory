@@ -26,7 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.booklore.util.FileService.truncate;
+import static org.grimmory.util.FileService.truncate;
 
 @Slf4j
 @Service

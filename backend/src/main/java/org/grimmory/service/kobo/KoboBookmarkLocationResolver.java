@@ -15,7 +15,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.booklore.service.kobo.KoboEpubUtils.normalizeHref;
+import static org.grimmory.service.kobo.KoboEpubUtils.normalizeHref;
 
 @Slf4j
 @Service

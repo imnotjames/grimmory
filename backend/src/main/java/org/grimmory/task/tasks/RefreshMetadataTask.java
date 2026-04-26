@@ -11,8 +11,8 @@ import org.grimmory.service.metadata.MetadataRefreshService;
 import org.grimmory.task.TaskStatus;
 import org.springframework.stereotype.Component;
 
-import static org.booklore.exception.ApiError.PERMISSION_DENIED;
-import static org.booklore.model.enums.UserPermission.CAN_BULK_AUTO_FETCH_METADATA;
+import static org.grimmory.exception.ApiError.PERMISSION_DENIED;
+import static org.grimmory.model.enums.UserPermission.CAN_BULK_AUTO_FETCH_METADATA;
 
 @AllArgsConstructor
 @Component

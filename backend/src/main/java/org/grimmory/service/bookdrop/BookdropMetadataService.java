@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
-import static org.booklore.model.entity.BookdropFileEntity.Status.PENDING_REVIEW;
-import static org.booklore.util.FileService.truncate;
+import static org.grimmory.model.entity.BookdropFileEntity.Status.PENDING_REVIEW;
+import static org.grimmory.util.FileService.truncate;
 
 @Slf4j
 @AllArgsConstructor

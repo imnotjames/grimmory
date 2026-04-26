@@ -32,8 +32,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.booklore.model.enums.PermissionType.ADMIN;
-import static org.booklore.model.enums.PermissionType.MANAGE_LIBRARY;
+import static org.grimmory.model.enums.PermissionType.ADMIN;
+import static org.grimmory.model.enums.PermissionType.MANAGE_LIBRARY;
 
 @Slf4j
 @Service

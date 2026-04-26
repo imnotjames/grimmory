@@ -23,8 +23,8 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.*;
 
-import static org.booklore.model.enums.PermissionType.ADMIN;
-import static org.booklore.model.enums.PermissionType.MANAGE_LIBRARY;
+import static org.grimmory.model.enums.PermissionType.ADMIN;
+import static org.grimmory.model.enums.PermissionType.MANAGE_LIBRARY;
 
 @Slf4j
 @Service

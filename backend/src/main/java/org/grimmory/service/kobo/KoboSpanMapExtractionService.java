@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static org.booklore.service.kobo.KoboEpubUtils.normalizeHref;
+import static org.grimmory.service.kobo.KoboEpubUtils.normalizeHref;
 
 @Service
 @Slf4j

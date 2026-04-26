@@ -34,7 +34,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.booklore.model.entity.BookdropFileEntity.Status.PENDING_REVIEW;
+import static org.grimmory.model.entity.BookdropFileEntity.Status.PENDING_REVIEW;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
