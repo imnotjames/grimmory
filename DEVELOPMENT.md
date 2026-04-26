@@ -141,7 +141,7 @@ just ui coverage    # With coverage report (output: coverage/)
 
 ```bash
 just api test                                                              # Run all tests
-just api test-class test_class=org.booklore.service.BookServiceTest        # Specific class
+just api test-class test_class=org.grimmory.service.BookServiceTest        # Specific class
 just api coverage                                                          # Coverage report
 ```
 
