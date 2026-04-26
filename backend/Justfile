@@ -22,7 +22,7 @@ build:
 test:
     {{ gradle }} test --no-daemon --parallel --build-cache
 
-# Run a single backend test class, for example `just test-class test_class=org.booklore.service.BookServiceTest`.
+# Run a single backend test class, for example `just test-class test_class=org.grimmory.service.BookServiceTest`.
 test-class test_class:
     {{ gradle }} test --tests "{{ test_class }}" --no-daemon --parallel --build-cache
 
