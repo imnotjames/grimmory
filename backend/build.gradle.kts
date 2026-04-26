@@ -13,7 +13,7 @@ plugins {
     jacoco
 }
 
-group = "org.booklore"
+group = "org.grimmory"
 version = "0.0.1-SNAPSHOT"
 
 val defaultFrontendDistDir = file("${rootDir}/../frontend/dist/grimmory/browser")
@@ -237,5 +237,5 @@ tasks.named<BootRun>("bootRun") {
 }
 
 tasks.named<BootJar>("bootJar") {
-    mainClass.set("org.booklore.BookloreApplication")
+    mainClass.set("org.grimmory.BookloreApplication")
 }
