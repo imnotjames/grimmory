@@ -884,18 +884,12 @@ public class AmazonBookParser implements BookParser, DetailedMetadataProvider {
     }
 
     private boolean isWhitespaceNode(Node node) {
-        if (node instanceof TextNode) {
-            if (((TextNode) node).isBlank()) {
-                return true;
-            }
+        if (node instanceof TextNode textNode) {
+            return textNode.isBlank();
         }
 
-        if (node instanceof Element) {
-            Element element = (Element) node;
-
-            if ("br".equals(element.tagName())) {
-                return true;
-            }
+        if (node instanceof Element element) {
+            return "br".equals(element.tagName());
         }
 
         return false;
