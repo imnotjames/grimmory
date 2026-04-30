@@ -98,8 +98,22 @@ jobs:
       - name: Set Up Docker Buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
 
+      - name: Check DockerHub secrets
+        id: dockerhub-secrets-available
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          # Check here rather than in the `if` because for authenticating because
+          # Github actions does not support the `secrets` context in `if` blocks.
+          if [[ -n "${DOCKERHUB_USERNAME}" && -n "${DOCKERHUB_PASSWORD}" ]]; then
+            echo "available=true" >> $GITHUB_OUTPUT
+          else
+            echo "available=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Authenticate to Docker Hub
-        if: ${{ vars.DOCKERHUB_REGISTRY != '' }}
+        if: ${{ vars.DOCKERHUB_REGISTRY != '' && steps.dockerhub-secrets-available.outputs.available == 'true' }}
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
