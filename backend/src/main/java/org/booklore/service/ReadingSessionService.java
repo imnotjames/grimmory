@@ -87,10 +87,12 @@ public class ReadingSessionService {
         return (dow.getValue() % 7) + 1;
     }
 
-    private String getDurationFormatted(int duration) {
-        int hours = duration / 3600;
-        int minutes = (duration % 3600) / 60;
-        int seconds = duration % 60;
+    private String getDurationFormatted(int durationSeconds) {
+        Duration duration = Duration.ofSeconds(durationSeconds);
+
+        long hours = duration.toHours();
+        int minutes = duration.toMinutesPart();
+        int seconds = duration.toSecondsPart();
 
         if (hours > 0) {
             return String.format("%dh %dm %ds", hours, minutes, seconds);
