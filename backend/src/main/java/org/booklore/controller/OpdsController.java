@@ -73,6 +73,10 @@ public class OpdsController {
             coverImage = bookService.getAudiobookCover(bookId);
         }
 
+        if (coverImage == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         String contentType = "image/jpeg";
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
