@@ -54,7 +54,6 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
     private static final String BASE_ISBN_URL = "https://www.goodreads.com/book/isbn/";
     private static final int COUNT_DETAILED_METADATA_TO_GET = 3;
     private static final int COUNT_DETAILED_METADATA_TO_GET_RETRY = 2;
-    private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\s+");
     private static final Pattern BOOK_SHOW_ID_PATTERN = Pattern.compile("/book/show/(\\d+)");
     private static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder().build();
 
