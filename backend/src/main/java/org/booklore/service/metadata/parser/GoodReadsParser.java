@@ -140,50 +140,50 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
                     }
                 }
 
-                List<BookMetadata> previews = fetchMetadataPreviews(book, fetchMetadataRequest).stream()
+                List<String> searchResultIds = fetchSearchResults(book, fetchMetadataRequest).stream()
                         .limit(COUNT_DETAILED_METADATA_TO_GET)
                         .toList();
 
-                for (BookMetadata preview : previews) {
+                for (String goodreadsId : searchResultIds) {
                     if (sink.isCancelled()) return;
-                    log.info("GoodReads: Fetching metadata for: {}", preview.getTitle());
+                    log.info("GoodReads: Fetching metadata for: Goodreads ID {}", goodreadsId);
                     try {
-                        Document document = fetchDoc(BASE_BOOK_URL + preview.getGoodreadsId());
-                        BookMetadata detailedMetadata = parseBookDetails(document, preview.getGoodreadsId());
+                        Document document = fetchDoc(BASE_BOOK_URL + goodreadsId);
+                        BookMetadata detailedMetadata = parseBookDetails(document, goodreadsId);
                         if (detailedMetadata != null) {
                             sink.next(detailedMetadata);
                         }
                         Thread.sleep(ThreadLocalRandom.current().nextLong(500, 1501));
                     } catch (Exception e) {
-                        log.error("Error fetching metadata for book: {}", preview.getGoodreadsId(), e);
+                        log.error("Error fetching metadata for book: {}", goodreadsId, e);
                     }
                 }
 
                 if (fetchMetadataRequest.getTitle() != null && !fetchMetadataRequest.getTitle().isBlank()
                         && fetchMetadataRequest.getAuthor() != null && !fetchMetadataRequest.getAuthor().isBlank()
-                        && previews.isEmpty()) {
+                        && searchResultIds.isEmpty()) {
 
                     log.info("GoodReads: No hits for Title + Author search, retrying with Title only: {}", fetchMetadataRequest.getTitle());
                     FetchMetadataRequest titleOnlyRequest = FetchMetadataRequest.builder()
                             .title(fetchMetadataRequest.getTitle())
                             .build();
 
-                    List<BookMetadata> titleOnlyPreviews = fetchMetadataPreviews(book, titleOnlyRequest).stream()
+                    List<String> titleOnlyGoodreadsIds = fetchSearchResults(book, titleOnlyRequest).stream()
                             .limit(COUNT_DETAILED_METADATA_TO_GET_RETRY)
                             .toList();
 
-                    for (BookMetadata preview : titleOnlyPreviews) {
+                    for (String goodreadsId : titleOnlyGoodreadsIds) {
                         if (sink.isCancelled()) return;
-                        log.info("GoodReads: Fetching metadata (Title only hit) for: {}", preview.getTitle());
+                        log.info("GoodReads: Fetching metadata (Title only hit) for: {}", goodreadsId);
                         try {
-                            Document document = fetchDoc(BASE_BOOK_URL + preview.getGoodreadsId());
-                            BookMetadata detailedMetadata = parseBookDetails(document, preview.getGoodreadsId());
+                            Document document = fetchDoc(BASE_BOOK_URL + goodreadsId);
+                            BookMetadata detailedMetadata = parseBookDetails(document, goodreadsId);
                             if (detailedMetadata != null) {
                                 sink.next(detailedMetadata);
                             }
                             Thread.sleep(ThreadLocalRandom.current().nextLong(500, 1501));
                         } catch (Exception e) {
-                            log.error("Error fetching metadata for book (Title only retry): {}", preview.getGoodreadsId(), e);
+                            log.error("Error fetching metadata for book (Title only retry): {}", goodreadsId, e);
                         }
                     }
                 }
@@ -499,7 +499,7 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
         return url;
     }
 
-    public List<BookMetadata> fetchMetadataPreviews(Book book, FetchMetadataRequest request) {
+    public List<String> fetchSearchResults(Book book, FetchMetadataRequest request) {
         String searchTerm = getSearchTerm(book, request);
 
         if (searchTerm == null || searchTerm.isEmpty()) {
@@ -519,7 +519,7 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
 
             Elements previewBooks = tableList.select("tr[itemtype=http://schema.org/Book]");
 
-            List<BookMetadata> metadataPreviews = new ArrayList<>();
+            List<String> searchResultIDs = new ArrayList<>();
             FuzzyScore fuzzyScore = new FuzzyScore(Locale.ENGLISH);
             String queryAuthor = request.getAuthor();
 
@@ -546,18 +546,11 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
                     }
                 }
 
-                BookMetadata previewMetadata = BookMetadata.builder()
-                        .goodreadsId(String.valueOf(extractGoodReadsIdPreview(previewBook)))
-                        .title(extractTitlePreview(previewBook))
-                        .authors(authors)
-                        .provider(MetadataProvider.GoodReads)
-                        .thumbnailUrl(extractThumbnailPreview(previewBook))
-                        .build();
-                metadataPreviews.add(previewMetadata);
+                searchResultIDs.add(String.valueOf(extractGoodReadsIdPreview(previewBook)));
             }
 
             Thread.sleep(Duration.ofSeconds(1));
-            return metadataPreviews;
+            return searchResultIDs;
 
         } catch (Exception e) {
             log.error("Error fetching metadata previews: {}", e.getMessage());
@@ -644,6 +637,8 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
             return null;
         }
     }
+
+
 
     private Document fetchDoc(String url) {
         try {
