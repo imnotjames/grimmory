@@ -365,7 +365,7 @@ class BookServiceTest {
     }
 
     @Test
-    void deleteBooks_flushesEntityManager() throws Exception {
+    void deleteBooks_clearsEntityManager() throws Exception {
         BookEntity entity = new BookEntity();
         entity.setId(11L);
         LibraryEntity library = new LibraryEntity();
@@ -391,7 +391,6 @@ class BookServiceTest {
 
         bookService.deleteBooks(Set.of(11L)).getBody();
 
-        verify(entityManager).flush();
         verify(entityManager).clear();
     }
 
