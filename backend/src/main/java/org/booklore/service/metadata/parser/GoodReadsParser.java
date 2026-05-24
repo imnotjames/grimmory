@@ -481,7 +481,7 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
     }
 
 
-    public List<String> fetchSearchResults(Book book, FetchMetadataRequest request) {
+    public List<String> fetchSearchResults(Book book, FetchMetadataRequest request) throws InterruptedException {
         String searchTerm = getSearchTerm(book, request);
 
         if (searchTerm == null || searchTerm.isEmpty()) {
@@ -505,6 +505,8 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
                     .filter(id -> !id.isBlank())
                     .toList();
 
+        } catch (InterruptedException e) {
+            throw e;
         } catch (Exception e) {
             log.error("Error fetching metadata previews: {}", e.getMessage());
             return Collections.emptyList();
@@ -590,7 +592,7 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
         }
     }
 
-    private <T> T fetchJson(String url, TypeReference<T> typeReference) {
+    private <T> T fetchJson(String url, TypeReference<T> typeReference) throws InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()
@@ -605,7 +607,9 @@ public class GoodReadsParser implements BookParser, DetailedMetadataProvider {
             }
 
             return OBJECT_MAPPER.readValue(response.body(), typeReference);
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
+            throw e;
+        } catch (IOException e) {
             log.error("GoodReads request failed", e);
             throw new RuntimeException(e);
         }
