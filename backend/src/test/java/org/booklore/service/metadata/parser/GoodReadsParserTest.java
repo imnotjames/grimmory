@@ -110,7 +110,7 @@ public class GoodReadsParserTest {
         when(
                 httpClient.<String>send(
                         argThat(r -> r.uri().toString().startsWith(urlPrefix)),
-                        eq(HttpResponse.BodyHandlers.ofString())
+                        any()
                 )
         ).thenAnswer((_) -> getMockResponse(statusCode, response));
     }
