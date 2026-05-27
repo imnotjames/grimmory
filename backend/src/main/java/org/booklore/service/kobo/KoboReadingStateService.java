@@ -416,7 +416,7 @@ public class KoboReadingStateService {
         existing.setCurrentBookmarkJson(merged.getCurrentBookmarkJson());
         existing.setStatisticsJson(merged.getStatisticsJson());
         existing.setStatusInfoJson(merged.getStatusInfoJson());
-        existing.setLastModifiedString(merged.getLastModified());
+        existing.setLastModifiedString(merged.getLastModifiedString());
         existing.setPriorityTimestamp(merged.getPriorityTimestamp());
         return existing;
     }
