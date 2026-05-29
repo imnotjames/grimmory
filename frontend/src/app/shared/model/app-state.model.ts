@@ -12,7 +12,8 @@ export {
 export type {AppTheme, CustomPrimary} from './theme-registry';
 
 export interface AppState {
-  themePreference?: AppTheme;
-  appearancePreference?: AppearancePreference;
-  customPrimary?: CustomPrimary;
+  themePreference: AppTheme;
+  appearancePreference: AppearancePreference;
+  customPrimary: CustomPrimary;
+  oledDarkMode: boolean;
 }
