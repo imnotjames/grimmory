@@ -188,6 +188,7 @@ public class BookQueryService {
             m.setSeriesTotalLocked(null);
             m.setIsbn13Locked(null);
             m.setIsbn10Locked(null);
+            m.setOpenlibraryIdLocked(null);
             m.setAsinLocked(null);
             m.setGoodreadsIdLocked(null);
             m.setComicvineIdLocked(null);
@@ -226,6 +227,7 @@ public class BookQueryService {
             m.setContentRatingLocked(null);
 
             // Strip external IDs
+            m.setOpenlibraryId(null);
             m.setAsin(null);
             m.setGoodreadsId(null);
             m.setComicvineId(null);
@@ -319,7 +321,7 @@ public class BookQueryService {
                 m.getTitleLocked(), m.getSubtitleLocked(), m.getPublisherLocked(),
                 m.getPublishedDateLocked(), m.getDescriptionLocked(), m.getSeriesNameLocked(),
                 m.getSeriesNumberLocked(), m.getSeriesTotalLocked(), m.getIsbn13Locked(),
-                m.getIsbn10Locked(), m.getAsinLocked(), m.getGoodreadsIdLocked(),
+                m.getIsbn10Locked(), m.getOpenlibraryIdLocked(), m.getAsinLocked(), m.getGoodreadsIdLocked(),
                 m.getComicvineIdLocked(), m.getHardcoverIdLocked(), m.getHardcoverBookIdLocked(),
                 m.getDoubanIdLocked(), m.getGoogleIdLocked(), m.getPageCountLocked(),
                 m.getLanguageLocked(), m.getAmazonRatingLocked(), m.getAmazonReviewCountLocked(),
