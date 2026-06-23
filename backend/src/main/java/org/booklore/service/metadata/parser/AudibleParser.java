@@ -195,7 +195,7 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
             return null;
         }
 
-        Matcher matcher = ASIN_PATTERN.matcher(asin);
+        Matcher matcher = ASIN_PATTERN.matcher(asin.toUpperCase(Locale.ROOT));
         return matcher.find() ? matcher.group(1) : null;
     }
 
