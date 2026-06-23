@@ -165,7 +165,7 @@ public class AudibleParserTest {
     }
 
     @Test
-    public void fetchTopMetadata_removesExtraCharacters() throws Exception {
+    public void fetchTopMetadata_removesExtraCharactersFromBook() throws Exception {
         mockHttpClientResponse(
                 "https://api.audible.com/1.0/catalog/products/EXAMPLESKU",
                 200,
@@ -174,6 +174,24 @@ public class AudibleParserTest {
 
         Book book = getBook("@EXAMPLESKU!!");
         FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder().build();
+
+        BookMetadata actual = audibleParser.fetchTopMetadata(book, fetchMetadataRequest);
+
+        assertThat(actual).isNotNull();
+    }
+
+    @Test
+    public void fetchTopMetadata_removesExtraCharactersFromRequest() throws Exception {
+        mockHttpClientResponse(
+                "https://api.audible.com/1.0/catalog/products/EXAMPLESKU",
+                200,
+                readFixture("example-asin-lookup.json")
+        );
+
+        Book book = getBook(null);
+        FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder()
+                .asin("@EXAMPLESKU!! ")
+                .build();
 
         BookMetadata actual = audibleParser.fetchTopMetadata(book, fetchMetadataRequest);
 

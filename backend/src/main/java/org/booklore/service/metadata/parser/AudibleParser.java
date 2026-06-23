@@ -190,7 +190,18 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
         }
     }
 
+    private String normalizeAsin(String asin) {
+        if (asin == null) {
+            return null;
+        }
+
+        Matcher matcher = ASIN_PATTERN.matcher(asin);
+        return matcher.find() ? matcher.group(1) : null;
+    }
+
     private AudibleProduct lookup(String asin) {
+        asin = normalizeAsin(asin);
+
         if (asin == null || asin.isBlank()) {
             return null;
         }
@@ -283,17 +294,8 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
         if (metadata == null) {
             return null;
         }
-        String asin = metadata.getAsin();
-        if (asin == null) {
-            return null;
-        }
 
-        Matcher matcher = AudibleParser.ASIN_PATTERN.matcher(asin);
-        if (!matcher.find()) {
-            return null;
-        }
-
-        return matcher.group(1);
+        return metadata.getAsin();
     }
 
     @Override
