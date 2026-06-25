@@ -24,6 +24,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -257,5 +258,22 @@ public class AudibleParserTest {
         assertThat(actual.getAbridged()).isFalse();
         assertThat(actual.getThumbnailUrl()).isEqualTo("https://m.media-amazon.com/images/I/81Yraj9IJDL._SL1000_.jpg");
         assertThat(actual.getCategories()).isEqualTo(Set.of("Classics", "Literature & Fiction"));
+    }
+
+    @Test
+    public void fetchMetadata_ignoresPodcasts() throws Exception {
+        mockHttpClientResponse(
+                "https://api.audible.com/1.0/catalog/products",
+                200,
+                readFixture("example-search-with-podcasts.json")
+        );
+
+        Book book = getBook(null);
+        FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder().title("Lore").build();
+
+        List<BookMetadata> actual = audibleParser.fetchMetadata(book, fetchMetadataRequest);
+
+        assertThat(actual).hasSize(13);
+        assertThat(actual.stream().map(BookMetadata::getAsin).anyMatch("B08JJSB33N"::equalsIgnoreCase)).isFalse();
     }
 }

@@ -113,16 +113,20 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
     private record AudibleProduct (
             String asin,
             String title,
+            @JsonProperty("content_type")
+            String contentType,
             Optional<String> subtitle,
-            List<AudibleContributor> authors,
-            List<AudibleContributor> narrators,
+            Optional<List<AudibleContributor>> authors,
+            Optional<List<AudibleContributor>> narrators,
             @JsonProperty("category_ladders")
             Optional<List<AudibleCategoryLadder>> categoryLadders,
             AudibleRating rating,
             @JsonProperty("product_images")
-            Map<String, String> productImages,
+            Optional<Map<String, String>> productImages,
+            @JsonProperty("publisher_summary")
+            Optional<String> publisherSummary,
             @JsonProperty("merchandising_summary")
-            String merchandisingSummary,
+            Optional<String> merchandisingSummary,
             String language,
             @JsonProperty("format_type")
             String formatType,
@@ -131,7 +135,7 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
             @JsonProperty("publisher_name")
             String publisherName,
             @JsonProperty("runtime_length_min")
-            int runtimeLengthMinutes,
+            Optional<Integer> runtimeLengthMinutes,
             Optional<List<AudibleSeries>> series
     ) {}
 
@@ -318,6 +322,7 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
         return search(searchTerm, 1)
                 .stream()
                 .map(this::toMetadata)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
     }
@@ -333,6 +338,7 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
         return search(searchTerm, 10)
                 .stream()
                 .map(this::toMetadata)
+                .filter(Objects::nonNull)
                 .toList();
     }
 
@@ -349,10 +355,6 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
     }
 
     private String stripHTML(String value) {
-        if (value == null) {
-            return null;
-        }
-
         return Jsoup.parse(value).text();
     }
 
@@ -365,21 +367,34 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
     }
 
     private BookMetadata toMetadata(AudibleProduct product) {
+        if (product == null) {
+            return null;
+        }
+
+        if ("podcast".equalsIgnoreCase(product.contentType)) {
+            return null;
+        }
+
         AudiobookMetadata audiobookMetadata = AudiobookMetadata.builder()
-                .durationSeconds(product.runtimeLengthMinutes * 60L)
+                .durationSeconds(product.runtimeLengthMinutes.map(r -> r * 60L).orElse(null))
                 .build();
 
         Optional<AudibleSeries> series = product.series.flatMap(s -> s.stream().findFirst());
         boolean abridged = !("unabridged".equalsIgnoreCase(product.formatType));
 
-        String description = stripHTML(product.merchandisingSummary);
+        String description = product.publisherSummary
+                .or(() -> product.merchandisingSummary)
+                .map(this::stripHTML)
+                .orElse(null);
 
         List<String> authors = product.authors
+                .orElse(List.of())
                 .stream()
                 .map(AudibleContributor::name)
                 .toList();
 
         String narrator = product.narrators
+                .orElse(List.of())
                 .stream()
                 .map(AudibleContributor::name)
                 .findFirst()
@@ -410,7 +425,7 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
                 .publisher(product.publisherName)
                 .publishedDate(product.releaseDate)
                 .language(LanguageNormalizer.normalize(product.language))
-                .thumbnailUrl(product.productImages.get(IMAGE_SIZE))
+                .thumbnailUrl(product.productImages.map(m -> m.get(IMAGE_SIZE)).orElse(null))
                 .audibleRating(product.rating.overallDistribution().averageRating)
                 .audibleReviewCount(product.rating.reviewCount)
                 .abridged(abridged)
