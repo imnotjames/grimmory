@@ -108,7 +108,7 @@ public class AuthenticationService {
                 .id(-1L)
                 .username("system")
                 .name("System User")
-                .email("system@booklore.internal")
+                .email("system@grimmory.internal")
                 .provisioningMethod(ProvisioningMethod.LOCAL)
                 .isDefaultPassword(false)
                 .permissions(permissions)
