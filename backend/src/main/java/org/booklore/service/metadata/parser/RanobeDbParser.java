@@ -50,7 +50,7 @@ public class RanobeDbParser implements BookParser {
             .expireAfterWrite(Duration.ofHours(1))
             .build();
 
-    // Rate limiter: 2 requests per second
+    // Rate limiter
     private static final int MAX_REQUESTS_PER_WINDOW = 60;
     private static final long RATE_LIMIT_WINDOW_MS = 60000; // 60 seconds in milliseconds
     private final AtomicLong lastRequestTime = new AtomicLong(0);
