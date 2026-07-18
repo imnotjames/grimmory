@@ -51,10 +51,10 @@ public class RanobeDbParser implements BookParser {
             .build();
 
     // Rate limiter: 2 requests per second
-    private static final int MAX_REQUESTS_PER_SECOND = 2;
-    private static final long RATE_LIMIT_WINDOW_MS = 1000; // 1 second in milliseconds
+    private static final int MAX_REQUESTS_PER_WINDOW = 60;
+    private static final long RATE_LIMIT_WINDOW_MS = 60000; // 60 seconds in milliseconds
     private final AtomicLong lastRequestTime = new AtomicLong(0);
-    private final AtomicLong tokenCount = new AtomicLong(MAX_REQUESTS_PER_SECOND);
+    private final AtomicLong tokenCount = new AtomicLong(MAX_REQUESTS_PER_WINDOW);
 
     private record SearchTerms(String title, Integer authorId) {}
 
@@ -80,44 +80,37 @@ public class RanobeDbParser implements BookParser {
         return metadataList.isEmpty() ? null : metadataList.getFirst();
     }
 
-    private void waitForRateLimit() {
+    private void waitForRateLimit() throws InterruptedException {
         while (true) {
             long currentTime = System.currentTimeMillis();
             long lastTime = lastRequestTime.get();
             long timeSinceLastRequest = currentTime - lastTime;
+            long currentTokens = tokenCount.get();
 
             // Refill tokens based on time elapsed
-            if (timeSinceLastRequest >= RATE_LIMIT_WINDOW_MS) {
-                // More than 1 second has passed, refill to max tokens
-                if (lastRequestTime.compareAndSet(lastTime, currentTime)) {
-                    tokenCount.set(MAX_REQUESTS_PER_SECOND);
-                }
-            } else {
-                // Calculate how many tokens to add based on time elapsed
-                long tokensToAdd = (timeSinceLastRequest * MAX_REQUESTS_PER_SECOND) / RATE_LIMIT_WINDOW_MS;
-                if (tokensToAdd > 0) {
-                    long currentTokens = tokenCount.get();
-                    long newTokens = Math.min(currentTokens + tokensToAdd, MAX_REQUESTS_PER_SECOND);
-                    tokenCount.compareAndSet(currentTokens, newTokens);
+            if (timeSinceLastRequest > RATE_LIMIT_WINDOW_MS / MAX_REQUESTS_PER_WINDOW) {
+                long tokensToAdd = timeSinceLastRequest / (RATE_LIMIT_WINDOW_MS / MAX_REQUESTS_PER_WINDOW);
+                long newTokens = Math.min(currentTokens + tokensToAdd, MAX_REQUESTS_PER_WINDOW);
+                if (tokenCount.compareAndSet(currentTokens, newTokens)) {
+                    currentTokens = newTokens;
+                    lastRequestTime.set(System.currentTimeMillis());
                 }
             }
 
             // Try to consume a token
-            long currentTokens = tokenCount.get();
             if (currentTokens > 0) {
                 if (tokenCount.compareAndSet(currentTokens, currentTokens - 1)) {
-                    lastRequestTime.set(System.currentTimeMillis());
                     return; // Successfully acquired a token
                 }
             } else {
                 // No tokens available, wait before retrying
                 try {
-                    long waitTime = RATE_LIMIT_WINDOW_MS / MAX_REQUESTS_PER_SECOND;
+                    long waitTime = RATE_LIMIT_WINDOW_MS / MAX_REQUESTS_PER_WINDOW;
                     Thread.sleep(waitTime);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     log.warn("Rate limiter interrupted", e);
-                    return;
+                    throw e;
                 }
             }
         }
