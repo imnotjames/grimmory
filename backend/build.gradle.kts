@@ -200,7 +200,7 @@ dependencies {
     implementation("com.github.RouHim:jaudiotagger:2.0.27")
 
     // --- Archive Support ---
-    implementation("com.github.gotson.nightcompress:nightcompress:1.1.1")
+    implementation("com.github.junrar:junrar:8.0.0")
 
     // --- JSON & Web Scraping ---
     implementation("org.jsoup:jsoup:1.22.2")
