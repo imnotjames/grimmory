@@ -8,10 +8,6 @@
  *
  * The KOReader XPointer format (/body/DocFragment[N]/body/.../text().O) follows
  * conventions documented in the KOReader / CREngine source code (AGPL-3.0).
- *
- * SPDX-License-Identifier: AGPL-3.0-or-later
- * Copyright (C) 2025-2026 Grimmory contributors
- * Copyright (C) 2025-2026 Booklore contributors
  */
 package org.booklore.util.koreader;
 
