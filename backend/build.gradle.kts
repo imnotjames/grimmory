@@ -187,11 +187,11 @@ dependencies {
     implementation("com.twelvemonkeys.imageio:imageio-bmp:3.14.0")
 
     // epub4j-grimmory fork publishes as org.grimmory:epub4j-core
-    val epub4jCoords = if (useLocalLibs) "org.grimmory:epub4j-core:+" else "org.grimmory:epub4j-core:1.4.0"
+    val epub4jCoords = if (useLocalLibs) "org.grimmory:epub4j-core:+" else "org.grimmory:epub4j-core:1.5.0"
     implementation(epub4jCoords)
 
     // epub4j-native for native archive parsing
-    val epub4jNativeVersion = "1.4.0"
+    val epub4jNativeVersion = "1.5.0"
     val epub4jNativeCoords = if (useLocalLibs) "org.grimmory:epub4j-native:+" else "org.grimmory:epub4j-native:$epub4jNativeVersion"
     implementation(epub4jNativeCoords)
     runtimeOnly("$epub4jNativeCoords:${epub4jNativesClassifier()}")
