@@ -182,9 +182,17 @@ public class EpubMetadataExtractor implements FileMetadataExtractor {
 
     @Override
     public BookMetadata extractMetadata(File epubFile) {
-        try (EpubContainer container = EpubContainers.open(epubFile.toPath())) {
-            String opfPath = findOpfPath(container);
-            Document doc = parseXmlFromContainer(container, opfPath);
+        try {
+            Book book = new EpubReader().readEpubLazy(epubFile.toPath(), "UTF-8");
+
+            var opfResource = book.getOpfResource();
+
+            if (opfResource == null) {
+                return null;
+            }
+
+            Document doc = SecureXmlUtils.createSecureDocumentBuilder(true)
+                    .parse(opfResource.asInputStream());
 
             Element metadata = (Element) doc.getElementsByTagNameNS("*", "metadata").item(0);
             if (metadata == null) return null;
