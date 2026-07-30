@@ -180,19 +180,29 @@ public class EpubMetadataExtractor implements FileMetadataExtractor {
         return null;
     }
 
+    private Document getOPFDocumentFromEpub(File epubFile) throws IOException, ParserConfigurationException, SAXException {
+        Book book = new EpubReader().readEpubLazy(epubFile.toPath(), "UTF-8");
+
+        var opfResource = book.getOpfResource();
+
+        if (opfResource == null) {
+            return null;
+        }
+
+        try (var inputStream = opfResource.getInputStream()) {
+            return SecureXmlUtils.createSecureDocumentBuilder(true)
+                    .parse(inputStream);
+        }
+    }
+
     @Override
     public BookMetadata extractMetadata(File epubFile) {
         try {
-            Book book = new EpubReader().readEpubLazy(epubFile.toPath(), "UTF-8");
+            Document doc = getOPFDocumentFromEpub(epubFile);
 
-            var opfResource = book.getOpfResource();
-
-            if (opfResource == null) {
+            if (doc == null) {
                 return null;
             }
-
-            Document doc = SecureXmlUtils.createSecureDocumentBuilder(true)
-                    .parse(opfResource.asInputStream());
 
             Element metadata = (Element) doc.getElementsByTagNameNS("*", "metadata").item(0);
             if (metadata == null) return null;
