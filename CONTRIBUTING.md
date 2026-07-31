@@ -25,7 +25,7 @@ code.
 
 Grimmory uses a two-stage workflow designed to keep everyone's time well spent.
 
-**Discussions first.** Ideas, and support questions all start in
+**Discussions first.** Ideas and support questions all start in
 [GitHub Discussions](https://github.com/orgs/grimmory-tools/discussions). This is where problems get
 understood, ideas get shaped, and the community weighs in. Nothing is off the table at this stage.
 Discussions are where we figure out what's actually worth building.
