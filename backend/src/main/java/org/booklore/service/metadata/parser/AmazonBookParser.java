@@ -609,7 +609,7 @@ public class AmazonBookParser implements BookParser, DetailedMetadataProvider {
 
     private Double getRating(Document doc) {
         try {
-            Element reviewDiv = doc.selectFirst("div#averageCustomerReviews_feature_div");
+            Element reviewDiv = doc.selectFirst("div#averageCustomerReviews_feature_div,div#averageCustomerReviews");
             if (reviewDiv != null) {
                 Element ratingSpan = reviewDiv.selectFirst("span#acrPopover span.a-size-base.a-color-base");
                 if (ratingSpan == null) {
@@ -739,7 +739,7 @@ public class AmazonBookParser implements BookParser, DetailedMetadataProvider {
 
     private Integer getReviewCount(Document doc) {
         try {
-            Element reviewDiv = doc.select("div#averageCustomerReviews_feature_div").first();
+            Element reviewDiv = doc.selectFirst("div#averageCustomerReviews_feature_div,div#averageCustomerReviews");
             if (reviewDiv != null) {
                 Element reviewCountElement = reviewDiv.getElementById("acrCustomerReviewText");
                 if (reviewCountElement != null) {
