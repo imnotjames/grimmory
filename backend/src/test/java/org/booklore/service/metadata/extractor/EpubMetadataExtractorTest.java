@@ -1446,5 +1446,75 @@ class EpubMetadataExtractorTest {
 
             assertThat(metadata.getContentRating()).isEqualTo(rating);
         }
+
+        @Test
+        void invalidDocTypeIsIgnored() throws IOException {
+            String opf = """
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <!DOCTYPE html>
+                    <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+                      <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+                        <dc:title>Root OPF</dc:title>
+                        <dc:creator opf:role="aut">Root Author</dc:creator>
+                        <dc:date>2020</dc:date>
+                      </metadata>
+                      <manifest/>
+                    </package>""";
+            File epub = createEpub(opf, "OEBPS/content.opf", null);
+            BookMetadata metadata = extractor.extractMetadata(epub);
+
+            assertThat(metadata.getTitle()).isEqualTo("Root OPF");
+            assertThat(metadata.getAuthors()).containsExactly("Root Author");
+            assertThat(metadata.getPublishedDate()).isEqualTo(LocalDate.of(2020, 1, 1));
+        }
+
+        @Test
+        void xxePreventsDataAccess() throws IOException {
+            // https://owasp.org/www-community/vulnerabilities/XML_External_Entity_(XXE)_Processing
+            String opf = """
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+                    <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+                      <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+                        <dc:title>&xxe;</dc:title>
+                      </metadata>
+                      <manifest/>
+                    </package>""";
+            File epub = createEpub(opf, "OEBPS/content.opf", null);
+            BookMetadata metadata = extractor.extractMetadata(epub);
+
+            // Test is the name of the file.
+            assertThat(metadata.getTitle()).isEqualTo("test");
+        }
+
+        @Test
+        void xxePreventsBillionLaughs() throws IOException {
+            // https://en.wikipedia.org/wiki/Billion_laughs_attack
+            String opf = """
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <!DOCTYPE lolz [
+                     <!ELEMENT lolz (#PCDATA)>
+                     <!ENTITY lol1 "lollollollollollollollollollol">
+                     <!ENTITY lol2 "&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;&lol1;">
+                     <!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">
+                     <!ENTITY lol4 "&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;&lol3;">
+                     <!ENTITY lol5 "&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;&lol4;">
+                     <!ENTITY lol6 "&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;&lol5;">
+                     <!ENTITY lol7 "&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;&lol6;">
+                     <!ENTITY lol8 "&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;&lol7;">
+                     <!ENTITY lol9 "&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;&lol8;">
+                    ]>
+                    <package xmlns="http://www.idpf.org/2007/opf" version="3.0">
+                      <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+                        <dc:title><lolz>&lol9;</lolz></dc:title>
+                      </metadata>
+                      <manifest/>
+                    </package>""";
+            File epub = createEpub(opf, "OEBPS/content.opf", null);
+            BookMetadata metadata = extractor.extractMetadata(epub);
+
+            // Test is the name of the file.
+            assertThat(metadata.getTitle()).isEqualTo("test");
+        }
     }
 }
