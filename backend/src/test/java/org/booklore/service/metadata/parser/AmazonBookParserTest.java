@@ -181,8 +181,8 @@ public class AmazonBookParserTest {
     }
 
     @Test
-    public void fetchTopMetadata_parsesRatings_USPaperback() throws Exception {
-        mockJsoupConnect("https://www.amazon.com/dp/B007978P18", readFixture("book-us.html"));
+    public void fetchTopMetadata_parsesRatings_USEbook() throws Exception {
+        mockJsoupConnect("https://www.amazon.com/dp/B007978P18", readFixture("ebook-us.html"));
 
         Book book = getBook("B007978P18");
         FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder().build();
@@ -233,6 +233,55 @@ public class AmazonBookParserTest {
         assertThat(result.getAmazonRating()).isEqualTo(4.5);
         assertThat(result.getAmazonReviewCount()).isNotNull();
         assertThat(result.getAmazonReviewCount()).isEqualTo(2423);
+    }
+
+    @Test
+    public void fetchTopMetadata_parsesPageCount_USEbook() throws Exception {
+        mockJsoupConnect("https://www.amazon.com/dp/B007978P18", readFixture("ebook-us.html"));
+
+        Book book = getBook("B007978P18");
+        FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder().build();
+
+        var result = amazonBookParser.fetchTopMetadata(book, fetchMetadataRequest);
+
+        mockJsoup.verify(() -> Jsoup.connect("https://www.amazon.com/dp/B007978P18"));
+
+        assertThat(result.getPageCount()).isNotNull();
+        assertThat(result.getPageCount()).isEqualTo(432);
+    }
+
+    @Test
+    public void fetchTopMetadata_parsesPageCount_DEPaperback() throws Exception {
+        when(mockAppSettingService.getAppSettings()).thenReturn(getAppSettings( "de"));
+
+        mockJsoupConnect("https://www.amazon.de/dp/3608989420", readFixture("book-de.html"));
+
+        Book book = getBook("3608989420");
+        FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder().build();
+
+        var result = amazonBookParser.fetchTopMetadata(book, fetchMetadataRequest);
+
+        mockJsoup.verify(() -> Jsoup.connect("https://www.amazon.de/dp/3608989420"));
+
+        assertThat(result.getPageCount()).isNotNull();
+        assertThat(result.getPageCount()).isEqualTo(448);
+    }
+
+    @Test
+    public void fetchTopMetadata_parsesPageCount_DEEbook() throws Exception {
+        when(mockAppSettingService.getAppSettings()).thenReturn(getAppSettings( "de"));
+
+        mockJsoupConnect("https://www.amazon.de/dp/B01BLSRIX6", readFixture("ebook-de.html"));
+
+        Book book = getBook("B01BLSRIX6");
+        FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder().build();
+
+        var result = amazonBookParser.fetchTopMetadata(book, fetchMetadataRequest);
+
+        mockJsoup.verify(() -> Jsoup.connect("https://www.amazon.de/dp/B01BLSRIX6"));
+
+        assertThat(result.getPageCount()).isNotNull();
+        assertThat(result.getPageCount()).isEqualTo(414);
     }
 
     @Test
