@@ -417,22 +417,6 @@ public class EpubMetadataExtractor implements FileMetadataExtractor {
                 else if ("subtitle".equals(type)) builderMeta.subtitle(value);
             }
 
-            if (builderMeta.build().getPublishedDate() == null) {
-                for (int i = 0; i < children.getLength(); i++) {
-                    if (!(children.item(i) instanceof Element el)) continue;
-                    if (!"meta".equals(el.getLocalName())) continue;
-                    String prop = el.getAttribute("property").trim().toLowerCase();
-                    String content = el.hasAttribute("content") ? el.getAttribute("content").trim() : el.getTextContent().trim();
-                    if ("dcterms:modified".equals(prop)) {
-                        LocalDate parsed = parseDate(content);
-                        if (parsed != null) {
-                            builderMeta.publishedDate(parsed);
-                            break;
-                        }
-                    }
-                }
-            }
-
             for (Map.Entry<String, String> entry : creatorsById.entrySet()) {
                 String id = entry.getKey();
                 String value = entry.getValue();

@@ -307,14 +307,14 @@ class EpubMetadataExtractorTest {
         }
 
         @Test
-        void fallsBackToDctermsModifiedWhenNoDate() throws IOException {
+        void ignoresDctermsModifiedWhenNoDate() throws IOException {
             String opf = wrapOpf("""
                     <dc:title>Book</dc:title>
                     <meta property="dcterms:modified">2020-08-01T12:00:00Z</meta>
                     """);
             BookMetadata metadata = extractor.extractMetadata(createEpub(opf));
 
-            assertThat(metadata.getPublishedDate()).isEqualTo(LocalDate.of(2020, 8, 1));
+            assertThat(metadata.getPublishedDate()).isNull();
         }
 
         @Test
