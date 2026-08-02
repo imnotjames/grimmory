@@ -338,6 +338,28 @@ class EpubMetadataExtractorTest {
 
             assertThat(metadata.getPublishedDate()).isNull();
         }
+
+        @Test
+        void usesPublicationDate() throws IOException {
+            String opf = wrapOpf("""
+                    <dc:title>Book</dc:title>
+                    <dc:date opf:event="publication">2021-12-25T00:00:00</dc:date>
+                    """);
+            BookMetadata metadata = extractor.extractMetadata(createEpub(opf));
+
+            assertThat(metadata.getPublishedDate()).isNotNull();
+        }
+
+        @Test
+        void ignoresModificationDate() throws IOException {
+            String opf = wrapOpf("""
+                    <dc:title>Book</dc:title>
+                    <dc:date opf:event="modification">2021-12-25T00:00:00</dc:date>
+                    """);
+            BookMetadata metadata = extractor.extractMetadata(createEpub(opf));
+
+            assertThat(metadata.getPublishedDate()).isNull();
+        }
     }
 
     @Nested

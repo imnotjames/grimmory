@@ -399,8 +399,12 @@ public class EpubMetadataExtractor implements FileMetadataExtractor {
                         }
                     }
                     case "date" -> {
+                        String event = el.getAttributeNS(OPF_NS, "event");
+                        boolean isPublishedDate = event.isBlank() || event.equalsIgnoreCase("publication");
                         LocalDate parsed = parseDate(text);
-                        if (parsed != null) builderMeta.publishedDate(parsed);
+                        if (parsed != null && isPublishedDate) {
+                            builderMeta.publishedDate(parsed);
+                        }
                     }
                 }
             }
