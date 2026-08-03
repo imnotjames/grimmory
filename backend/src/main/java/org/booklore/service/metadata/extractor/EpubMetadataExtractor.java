@@ -400,6 +400,9 @@ public class EpubMetadataExtractor implements FileMetadataExtractor {
                     }
                     case "date" -> {
                         String event = el.getAttributeNS(OPF_NS, "event");
+                        // Epub3 publication date has no `event` specified.
+                        // Epub2 publication date has an `event` of `publication`.
+                        // This handles both to cover our bases.
                         boolean isPublishedDate = event.isBlank() || event.equalsIgnoreCase("publication");
                         LocalDate parsed = parseDate(text);
                         if (parsed != null && isPublishedDate) {
