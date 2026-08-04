@@ -29,7 +29,6 @@
     "@angular/core": "^21.2.19",
     "@angular/forms": "^21.2.19",
     "@angular/platform-browser": "^21.2.19",
-    "@angular/platform-browser-dynamic": "^21.2.19",
     "@angular/router": "^21.2.19",
     "@angular/service-worker": "^21.2.19",
     "@embedpdf/pdfium": "2.14.4",
