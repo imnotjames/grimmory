@@ -5,6 +5,8 @@ import org.booklore.util.epub.CoverDetectorService;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.node.ObjectNode;
+import org.grimmory.epub4j.domain.Book;
+import org.grimmory.epub4j.epub.EpubReader;
 import org.grimmory.epub4j.archive.EpubContainer;
 import org.grimmory.epub4j.archive.EpubContainers;
 import lombok.extern.slf4j.Slf4j;
