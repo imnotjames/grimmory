@@ -385,6 +385,33 @@ public class AmazonBookParserTest {
     }
 
     @Test
+    public void fetchTopMetadata_includesExternalURLWithDomain() throws Exception {
+        mockJsoupConnect("https://www.amazon.de/dp/EXAMPLESKU", readFixture("book-de.html"));
+        when(mockAppSettingService.getAppSettings()).thenReturn(getAppSettings( "de"));
+
+        Book book = getBook("EXAMPLESKU");
+        FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder().build();
+
+        var metadata = amazonBookParser.fetchTopMetadata(book, fetchMetadataRequest);
+
+        assertThat(metadata).isNotNull();
+        assertThat(metadata.getExternalUrl()).isEqualTo("https://www.amazon.de/dp/EXAMPLESKU");
+    }
+
+    @Test
+    public void fetchTopMetadata_includeExternalURL() throws Exception {
+        mockJsoupConnect("https://www.amazon.com/dp/EXAMPLESKU", readFixture("ebook-us.html"));
+
+        Book book = getBook("EXAMPLESKU");
+        FetchMetadataRequest fetchMetadataRequest = FetchMetadataRequest.builder().build();
+
+        var metadata = amazonBookParser.fetchTopMetadata(book, fetchMetadataRequest);
+
+        assertThat(metadata).isNotNull();
+        assertThat(metadata.getExternalUrl()).isEqualTo("https://www.amazon.com/dp/EXAMPLESKU");
+    }
+
+    @Test
     public void fetchTopMetadata_removesExtraWhitespace() throws Exception {
         mockJsoupConnect("https://www.amazon.com/dp/EXAMPLESKU", "<html />");
 

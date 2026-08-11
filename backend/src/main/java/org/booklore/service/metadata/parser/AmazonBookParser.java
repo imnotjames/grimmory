@@ -19,6 +19,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -297,6 +298,7 @@ public class AmazonBookParser implements BookParser, DetailedMetadataProvider {
 
         return BookMetadata.builder()
                 .provider(MetadataProvider.Amazon)
+                .externalUrl(buildExternalUrl(amazonBookId))
                 .title(titleInfo.title())
                 .subtitle(titleInfo.subtitle())
                 .authors(new ArrayList<>(getAuthors(doc)))
@@ -319,7 +321,17 @@ public class AmazonBookParser implements BookParser, DetailedMetadataProvider {
                 .build();
     }
 
-    private String buildQueryUrl(FetchMetadataRequest fetchMetadataRequest, Book book) {
+    private String buildExternalUrl(String asin) {
+        String domain = appSettingService.getAppSettings().getMetadataProviderSettings().getAmazon().getDomain();
+
+        return UriComponentsBuilder.fromUriString("https://www.amazon." + domain)
+                .path("/dp/{asin}")
+                .build(asin)
+                .toString();
+    }
+
+
+        private String buildQueryUrl(FetchMetadataRequest fetchMetadataRequest, Book book) {
         String domain = appSettingService.getAppSettings().getMetadataProviderSettings().getAmazon().getDomain();
         String isbnCleaned = ParserUtils.cleanIsbn(fetchMetadataRequest.getIsbn());
         if (isbnCleaned != null && !isbnCleaned.isEmpty()) {
