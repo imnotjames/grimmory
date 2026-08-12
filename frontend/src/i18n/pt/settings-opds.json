@@ -3,7 +3,7 @@
     "description": "Gerencie suas credenciais OPDS e controle como sua coleção de livros é compartilhada com aplicativos de leitura. Por padrão, todas as bibliotecas que você tem acesso serão incluídas no feed OPDS.",
     "server": {
         "sectionTitle": "Configurações do Servidor",
-        "sectionDesc": "Ative ou desative os serviços OPDS e API Komga para controlar o acesso à sua coleção de livros.",
+        "sectionDesc": "Ative ou desative os serviços API para controlar o acesso à sua coleção de livros.",
         "opdsLabel": "Servidor OPDS",
         "opdsDesc": "Ative o servidor OPDS para acessar sua coleção de livros através de aplicativos de leitura compatíveis com OPDS como KOReader, Moon+ Reader, etc.",
         "komgaLabel": "API Komga",
@@ -26,7 +26,7 @@
     },
     "users": {
         "sectionTitle": "Usuários OPDS",
-        "sectionDesc": "Gerencie as contas de usuário para acesso OPDS e API Komga. Estas são separadas das contas de usuário do Grimmory.",
+        "sectionDesc": "Gerencie as contas de usuário para acesso API. Estas são separadas das contas de usuário do Grimmory.",
         "addUser": "Adicionar Usuário",
         "emptyTitle": "Nenhum usuário encontrado",
         "emptySubtitle": "Crie seu primeiro usuário OPDS para começar",

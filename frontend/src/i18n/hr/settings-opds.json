@@ -3,7 +3,7 @@
     "description": "Upravljajte OPDS vjerodajnicama i kontrolirajte kako se vaša zbirka dijeli s aplikacijama za čitanje. Prema zadanim postavkama, sve zbirke kojima imate pristup bit će uključene u OPDS feed.",
     "server": {
         "sectionTitle": "Postavke poslužitelja",
-        "sectionDesc": "Omogućite ili onemogućite OPDS i Komga API usluge za kontrolu pristupa vašoj kolekciji knjiga.",
+        "sectionDesc": "Omogućite ili onemogućite API usluge za kontrolu pristupa vašoj kolekciji knjiga.",
         "opdsLabel": "OPDS poslužitelj",
         "opdsDesc": "Omogućite OPDS poslužitelj za pristup vašoj kolekciji knjiga putem OPDS kompatibilnih aplikacija za čitanje poput KOReadera, Moon+ Readera itd.",
         "komgaLabel": "Komga API",
@@ -26,7 +26,7 @@
     },
     "users": {
         "sectionTitle": "OPDS korisnici",
-        "sectionDesc": "Upravljajte korisničkim računima za pristup OPDS i Komga API-ju. Oni su odvojeni od korisničkih računa Grimmory-a.",
+        "sectionDesc": "Upravljajte korisničkim računima za pristup API-ju. Oni su odvojeni od korisničkih računa Grimmory-a.",
         "addUser": "Dodaj korisnika",
         "emptyTitle": "Nema pronađenih korisnika",
         "emptySubtitle": "Kreirajte prvog OPDS korisnika za početak",

@@ -3,7 +3,7 @@
     "description": "Gestisci le tue credenziali OPDS e controlla come la tua collezione di libri viene condivisa con le app di lettura. Per impostazione predefinita, tutte le librerie a cui hai accesso saranno incluse nel feed OPDS.",
     "server": {
         "sectionTitle": "Impostazioni server",
-        "sectionDesc": "Abilita o disabilita i servizi OPDS e API Komga per controllare l'accesso alla tua collezione di libri.",
+        "sectionDesc": "Abilita o disabilita i servizi API per controllare l'accesso alla tua collezione di libri.",
         "opdsLabel": "Server OPDS",
         "opdsDesc": "Abilita il server OPDS per accedere alla tua collezione di libri tramite app di lettura compatibili con OPDS come KOReader, Moon+ Reader, ecc.",
         "komgaLabel": "API Komga",
@@ -26,7 +26,7 @@
     },
     "users": {
         "sectionTitle": "Utenti OPDS",
-        "sectionDesc": "Gestisci gli account utente per l'accesso OPDS e API Komga. Questi sono separati dagli account utente Grimmory.",
+        "sectionDesc": "Gestisci gli account utente per l'accesso API. Questi sono separati dagli account utente Grimmory.",
         "addUser": "Aggiungi utente",
         "emptyTitle": "Nessun utente trovato",
         "emptySubtitle": "Crea il tuo primo utente OPDS per iniziare",

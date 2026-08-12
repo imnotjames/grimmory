@@ -3,7 +3,7 @@
     "description": "Hantera dina OPDS-uppgifter och styr hur din boksamling delas med läsappar. Som standard inkluderas alla bibliotek du har tillgång till i OPDS-flödet.",
     "server": {
         "sectionTitle": "Serverinställningar",
-        "sectionDesc": "Aktivera eller inaktivera OPDS- och Komga API-tjänster för att styra åtkomst till din boksamling.",
+        "sectionDesc": "Aktivera eller inaktivera API-tjänster för att styra åtkomst till din boksamling.",
         "opdsLabel": "OPDS-server",
         "opdsDesc": "Aktivera OPDS-servern för att komma åt din boksamling via OPDS-kompatibla läsappar som KOReader, Moon+ Reader osv.",
         "komgaLabel": "Komga API",
@@ -26,7 +26,7 @@
     },
     "users": {
         "sectionTitle": "OPDS-användare",
-        "sectionDesc": "Hantera användarkonton för OPDS- och Komga API-åtkomst. Dessa är separata från Grimmory-användarkonton.",
+        "sectionDesc": "Hantera användarkonton för API-åtkomst. Dessa är separata från Grimmory-användarkonton.",
         "addUser": "Lägg till användare",
         "emptyTitle": "Inga användare hittades",
         "emptySubtitle": "Skapa din första OPDS-användare för att komma igång",

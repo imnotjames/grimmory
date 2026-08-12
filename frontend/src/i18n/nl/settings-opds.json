@@ -3,7 +3,7 @@
     "description": "Beheer uw OPDS-inloggegevens en bepaal hoe uw boekcollectie wordt gedeeld met lees-apps. Standaard worden alle bibliotheken waartoe u toegang hebt opgenomen in de OPDS-feed.",
     "server": {
         "sectionTitle": "Serverinstellingen",
-        "sectionDesc": "Schakel OPDS- en Komga API-services in of uit om de toegang tot uw boekcollectie te beheren.",
+        "sectionDesc": "Schakel API-services in of uit om de toegang tot uw boekcollectie te beheren.",
         "opdsLabel": "OPDS Server",
         "opdsDesc": "Schakel de OPDS-server in om uw boekcollectie te benaderen via OPDS-compatibele lees-apps zoals KOReader, Moon+ Reader, etc.",
         "komgaLabel": "Komga API",

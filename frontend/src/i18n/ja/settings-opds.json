@@ -3,7 +3,7 @@
     "description": "OPDS認証情報を管理し、リーディングアプリとのブックコレクション共有方法を制御します。デフォルトでは、アクセス権のあるすべてのライブラリがOPDSフィードに含まれます。",
     "server": {
         "sectionTitle": "サーバー設定",
-        "sectionDesc": "OPDSおよびKomga APIサービスを有効または無効にして、ブックコレクションへのアクセスを制御します。",
+        "sectionDesc": "APIサービスを有効または無効にして、書籍コレクションへのアクセスを制御します。",
         "opdsLabel": "OPDSサーバー",
         "opdsDesc": "OPDSサーバーを有効にして、OPDS対応のリーディングアプリ（KOReader、Moon+ Readerなど）からブックコレクションにアクセスします。",
         "komgaLabel": "Komga API",
@@ -26,7 +26,7 @@
     },
     "users": {
         "sectionTitle": "OPDSユーザー",
-        "sectionDesc": "OPDSおよびKomga APIアクセス用のユーザーアカウントを管理します。これらはGrimmoryユーザーアカウントとは別です。",
+        "sectionDesc": "APIアクセス用のユーザーアカウントを管理します。これらはGrimmoryユーザーアカウントとは別です。",
         "addUser": "ユーザーを追加",
         "emptyTitle": "ユーザーが見つかりません",
         "emptySubtitle": "最初のOPDSユーザーを作成して始めましょう",
