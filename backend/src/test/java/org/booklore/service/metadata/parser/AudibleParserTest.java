@@ -165,7 +165,7 @@ public class AudibleParserTest {
         BookMetadata actual = audibleParser.fetchTopMetadata(book, fetchMetadataRequest);
 
         assertThat(actual).isNotNull();
-        assertThat(actual.getExternalUrl()).isEqualTo("https://www.audible.co.jp/dp/1705047572");
+        assertThat(actual.getExternalUrl()).isEqualTo("https://www.audible.co.jp/pd/1705047572");
     }
 
     @Test
@@ -182,7 +182,7 @@ public class AudibleParserTest {
         BookMetadata actual = audibleParser.fetchTopMetadata(book, fetchMetadataRequest);
 
         assertThat(actual).isNotNull();
-        assertThat(actual.getExternalUrl()).isEqualTo("https://www.audible.com/dp/1705047572");
+        assertThat(actual.getExternalUrl()).isEqualTo("https://www.audible.com/pd/1705047572");
     }
 
     @Test

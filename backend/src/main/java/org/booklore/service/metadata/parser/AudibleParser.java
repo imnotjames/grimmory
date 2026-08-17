@@ -185,7 +185,7 @@ public class AudibleParser implements BookParser, DetailedMetadataProvider {
         }
 
         return UriComponentsBuilder.fromUriString(getExternalBaseURI())
-                .path("/dp/{asin}")
+                .path("/pd/{asin}")
                 .build(asin)
                 .toString();
     }
