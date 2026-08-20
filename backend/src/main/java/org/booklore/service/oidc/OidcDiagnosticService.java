@@ -4,15 +4,14 @@ import com.nimbusds.jose.jwk.JWKSet;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.booklore.model.dto.settings.OidcProviderDetails;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.booklore.util.FileUtils;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
@@ -28,6 +27,8 @@ public class OidcDiagnosticService {
     private static final int CONNECT_TIMEOUT_MS = 10_000;
     private static final int READ_TIMEOUT_MS = 10_000;
 
+    private final RestTemplate oidcRestTemplate;
+
     @SuppressWarnings("unchecked")
     public OidcTestResult testConnection(OidcProviderDetails providerDetails) {
         List<OidcTestCheck> checks = new ArrayList<>();
@@ -39,12 +40,7 @@ public class OidcDiagnosticService {
             String issuerUri = FileUtils.trimTrailingSlashes(providerDetails.getIssuerUri());
             String discoveryUrl = issuerUri + "/.well-known/openid-configuration";
 
-            var factory = new SimpleClientHttpRequestFactory();
-            factory.setConnectTimeout(CONNECT_TIMEOUT_MS);
-            factory.setReadTimeout(READ_TIMEOUT_MS);
-
-            var restClient = RestClient.builder().requestFactory(factory).build();
-            doc = restClient.get().uri(discoveryUrl).retrieve().body(Map.class);
+            doc = oidcRestTemplate.getForObject(discoveryUrl, Map.class);
 
             if (doc == null) {
                 checks.add(new OidcTestCheck("Discovery Document", CheckStatus.FAIL, "Empty response from discovery endpoint"));
