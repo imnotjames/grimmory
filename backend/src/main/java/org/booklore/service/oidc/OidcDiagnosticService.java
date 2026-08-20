@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.booklore.util.FileUtils;
@@ -83,7 +84,13 @@ public class OidcDiagnosticService {
         // 3. Fetch JWKS
         if (jwksUri != null && !jwksUri.isBlank()) {
             try {
-                JWKSet jwkSet = JWKSet.load(URI.create(jwksUri).toURL());
+                Map<String, Object> jwksDoc = oidcRestTemplate.getForObject(jwksUri, Map.class);
+
+                if (jwksDoc == null) {
+                    jwksDoc = Map.of();
+                }
+
+                JWKSet jwkSet = JWKSet.parse(jwksDoc);
                 int keyCount = jwkSet.getKeys().size();
                 checks.add(new OidcTestCheck("JWKS Keys", CheckStatus.PASS, keyCount + " key(s) found"));
             } catch (Exception e) {
