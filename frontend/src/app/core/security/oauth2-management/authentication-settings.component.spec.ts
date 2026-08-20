@@ -495,12 +495,12 @@ describe('AuthenticationSettingsComponent', () => {
 
     component.testConnection();
 
-    expect(component.isTestingConnection).toBe(false);
-    expect(component.testConnectionResult).toEqual({
+    expect(component.isTestingConnection()).toBe(false);
+    expect(component.testConnectionResult()).toEqual({
       success: true,
       checks: [{name: 'issuer', status: 'PASS', message: 'ok'}],
     });
-    expect(component.showTestDetails).toBe(true);
+    expect(component.showTestDetails()).toBe(true);
 
     appSettingsService.testOidcConnection.mockReturnValueOnce(
       throwError(() => new HttpErrorResponse({status: 500}))
@@ -508,7 +508,7 @@ describe('AuthenticationSettingsComponent', () => {
 
     component.testConnection();
 
-    expect(component.isTestingConnection).toBe(false);
+    expect(component.isTestingConnection()).toBe(false);
     expect(messageService.add).toHaveBeenCalledWith(expect.objectContaining({
       severity: 'error',
       detail: 'settingsAuth.testConnection.error',
