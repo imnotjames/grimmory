@@ -185,6 +185,14 @@ public class AppSettingService {
                 .collect(Collectors.toMap(AppSettingEntity::getName, AppSettingEntity::getVal));
     }
 
+    private boolean isOIDCForceDisabled() {
+        return (
+                appProperties.getOidc() != null &&
+                appProperties.getOidc().getForceDisable() != null &&
+                appProperties.getOidc().getForceDisable()
+        );
+    }
+
     private PublicAppSetting buildPublicSetting() {
         Map<String, String> settingsMap = getSettingsMap();
         PublicAppSetting.PublicAppSettingBuilder builder = PublicAppSetting.builder();
@@ -198,7 +206,7 @@ public class AppSettingService {
         boolean oidcEnabled = Boolean.parseBoolean(settingPersistenceHelper.getOrCreateSetting(AppSettingKey.OIDC_ENABLED, "false"));
         boolean oidcForceOnlyMode = Boolean.parseBoolean(settingPersistenceHelper.getOrCreateSetting(AppSettingKey.OIDC_FORCE_ONLY_MODE, "false"));
 
-        if (appProperties.getForceDisableOidc() != null && appProperties.getForceDisableOidc()) {
+        if (isOIDCForceDisabled()) {
             oidcEnabled = false;
             oidcForceOnlyMode = false;
         }
@@ -259,8 +267,7 @@ public class AppSettingService {
         boolean oidcEnabled = Boolean.parseBoolean(settingPersistenceHelper.getOrCreateSetting(AppSettingKey.OIDC_ENABLED, "false"));
         boolean oidcForceOnlyMode = Boolean.parseBoolean(settingPersistenceHelper.getOrCreateSetting(AppSettingKey.OIDC_FORCE_ONLY_MODE, "false"));
 
-        // Env var flag to force disable OIDC
-        if (appProperties.getForceDisableOidc() != null && appProperties.getForceDisableOidc()) {
+        if (isOIDCForceDisabled()) {
             oidcEnabled = false;
             oidcForceOnlyMode = false;
         }

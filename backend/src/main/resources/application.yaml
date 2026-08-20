@@ -19,8 +19,11 @@ app:
     header-groups: ${REMOTE_AUTH_HEADER_GROUPS:Remote-Groups}
     admin-group: ${REMOTE_AUTH_ADMIN_GROUP}
     groups-delimiter: ${REMOTE_AUTH_GROUPS_DELIMITER:\\s+}
-  force-disable-oidc: ${FORCE_DISABLE_OIDC:false}
   disk-type: ${DISK_TYPE:LOCAL}
+
+  oidc:
+    force-disable: ${FORCE_DISABLE_OIDC:false}
+    allow-unsafe-hosts: ${OIDC_ALLOW_UNSAFE_HOSTS:false} # If enabled, turn off outbound SSRF filtering
 
   outbound:
     connect-timeout: 15
