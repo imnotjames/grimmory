@@ -1,7 +1,7 @@
 package org.booklore.config.security.oidc;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,14 +15,22 @@ import java.util.regex.Pattern;
 
 @Slf4j
 @Service
-@AllArgsConstructor
 public class OidcDiscoveryService {
 
     private static final Pattern TRAILING_SLASH = Pattern.compile("/+$");
     private static final long CACHE_TTL_MS = 3_600_000; // 1 hour
 
     private final ConcurrentMap<String, CachedDiscovery> cache = new ConcurrentHashMap<>();
+
+    @Qualifier("oidc")
     private final RestTemplate oidcRestTemplate;
+
+    public OidcDiscoveryService(
+            @Qualifier("oidc")
+            RestTemplate oidcRestTemplate
+    ) {
+        this.oidcRestTemplate = oidcRestTemplate;
+    }
 
     public record DiscoveryDocument(
             String issuer,

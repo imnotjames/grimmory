@@ -1,9 +1,9 @@
 package org.booklore.service.oidc;
 
 import com.nimbusds.jose.jwk.JWKSet;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.booklore.model.dto.settings.OidcProviderDetails;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
-@AllArgsConstructor
 public class OidcDiagnosticService {
 
     public record OidcTestResult(boolean success, List<OidcTestCheck> checks) {}
@@ -24,10 +23,14 @@ public class OidcDiagnosticService {
 
     public enum CheckStatus { PASS, FAIL, WARN, SKIP }
 
-    private static final int CONNECT_TIMEOUT_MS = 10_000;
-    private static final int READ_TIMEOUT_MS = 10_000;
-
     private final RestTemplate oidcRestTemplate;
+
+    public OidcDiagnosticService(
+            @Qualifier("oidc")
+            RestTemplate oidcRestTemplate
+    ) {
+        this.oidcRestTemplate = oidcRestTemplate;
+    }
 
     @SuppressWarnings("unchecked")
     public OidcTestResult testConnection(OidcProviderDetails providerDetails) {

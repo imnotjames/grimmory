@@ -81,6 +81,7 @@ public class RestClientConfig {
     }
 
     @Bean
+    @Qualifier("oidc")
     public RestTemplate oidcRestTemplate(
             ClientHttpRequestFactory clientHttpRequestFactory,
             @Qualifier("unsafe")
