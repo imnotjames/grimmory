@@ -152,7 +152,7 @@ class BookBrowseRegistryTest {
     private List<Long> sortedIds(String sortString, Long userId) {
         List<SortTerm> terms = SortParser.parse(sortString, sortRegistry.registry().keys());
         Specification<BookEntity> spec = (root, query, cb) -> {
-            query.orderBy(sortRegistry.registry().toOrders(terms, root, query, cb, userId));
+            query.orderBy(sortRegistry.registry().toOrders(terms, root, query, cb, userId, null));
             return cb.conjunction();
         };
         return bookRepository.findAll(spec).stream().map(BookEntity::getId).toList();
