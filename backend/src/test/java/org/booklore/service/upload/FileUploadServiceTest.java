@@ -21,7 +21,7 @@ import org.booklore.service.file.FileFingerprint;
 import org.booklore.service.file.FileMovingHelper;
 import org.booklore.service.metadata.extractor.MetadataExtractorFactory;
 import org.booklore.service.audit.AuditService;
-import org.booklore.service.monitoring.MonitoringRegistrationService;
+import org.booklore.service.watcher.MonitoringRegistrationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -5,7 +5,7 @@ import org.booklore.model.entity.BookFileEntity;
 import org.booklore.model.entity.LibraryEntity;
 import org.booklore.model.entity.LibraryPathEntity;
 import org.booklore.service.appsettings.AppSettingService;
-import org.booklore.service.monitoring.MonitoringRegistrationService;
+import org.booklore.service.watcher.MonitoringRegistrationService;
 import org.booklore.util.PathPatternResolver;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

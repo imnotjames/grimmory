@@ -1,9 +1,10 @@
-package org.booklore.service.library;
+package org.booklore.service.watcher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.booklore.model.dto.settings.LibraryFile;
 import org.booklore.model.entity.LibraryEntity;
+import org.booklore.service.library.BookGroupProcessor;
 import org.booklore.util.BookFileGroupingUtils;
 import org.springframework.stereotype.Component;
 

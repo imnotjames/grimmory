@@ -7,7 +7,7 @@ import org.booklore.repository.LibraryRepository;
 import org.booklore.service.NotificationService;
 import org.booklore.service.file.FileMovingHelper;
 import org.booklore.service.kobo.KoboAutoShelfService;
-import org.booklore.service.monitoring.MonitoringRegistrationService;
+import org.booklore.service.watcher.MonitoringRegistrationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

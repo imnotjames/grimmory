@@ -34,5 +34,5 @@ logging:
     io.micrometer.core.instrument.binder.cache.CaffeineCacheMetrics: ERROR
     org.booklore.config.WebSocketConfig: ERROR
     org.booklore.config.security.SecurityConfig: ERROR
-    org.booklore.service.monitoring.LibraryWatchService: ERROR
+    org.booklore.service.monitoring.org.booklore.service.watcher.LibraryWatchService: ERROR
     org.booklore.service.watcher.LibraryFileEventProcessor: ERROR

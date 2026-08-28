@@ -13,7 +13,7 @@ import org.booklore.repository.BookFileRepository;
 import org.booklore.repository.BookRepository;
 import org.booklore.repository.UserBookProgressRepository;
 import org.booklore.service.file.FileMoveHelper;
-import org.booklore.service.monitoring.MonitoringRegistrationService;
+import org.booklore.service.watcher.MonitoringRegistrationService;
 import org.booklore.service.progress.ReadingProgressService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;

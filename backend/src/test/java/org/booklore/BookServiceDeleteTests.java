@@ -10,7 +10,7 @@ import org.booklore.service.book.BookService;
 import org.booklore.service.book.BookUpdateService;
 import org.booklore.service.progress.ReadingProgressService;
 import org.booklore.service.metadata.sidecar.SidecarMetadataWriter;
-import org.booklore.service.monitoring.MonitoringRegistrationService;
+import org.booklore.service.watcher.MonitoringRegistrationService;
 import org.booklore.service.FileStreamingService;
 import org.booklore.service.audit.AuditService;
 import org.booklore.util.FileService;

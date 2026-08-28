@@ -2,6 +2,7 @@ package org.booklore.service.library;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.booklore.service.watcher.LibraryProcessingService;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

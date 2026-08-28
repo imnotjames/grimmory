@@ -5,12 +5,11 @@ import org.booklore.mapper.LibraryMapper;
 import org.booklore.service.audit.AuditService;
 import org.booklore.model.dto.BookLoreUser;
 import org.booklore.model.dto.Library;
-import org.booklore.model.dto.LibraryPath;
 import org.booklore.model.dto.request.CreateLibraryRequest;
 import org.booklore.model.entity.LibraryEntity;
-import org.booklore.model.entity.LibraryPathEntity;
 import org.booklore.model.enums.IconType;
 import org.booklore.repository.LibraryRepository;
+import org.booklore.service.watcher.LibraryProcessingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,13 +23,12 @@ import org.booklore.repository.LibraryPathRepository;
 import org.booklore.repository.UserRepository;
 import org.booklore.model.entity.BookLoreUserEntity;
 import org.booklore.service.NotificationService;
-import org.booklore.service.monitoring.LibraryWatchService;
+import org.booklore.service.watcher.LibraryWatchService;
 import org.booklore.util.FileService;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Collections;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executor;
 

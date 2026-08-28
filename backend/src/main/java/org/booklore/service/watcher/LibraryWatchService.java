@@ -1,9 +1,8 @@
-package org.booklore.service.monitoring;
+package org.booklore.service.watcher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.booklore.model.dto.Library;
 import org.booklore.model.enums.BookFileExtension;
-import org.booklore.service.watcher.LibraryFileEventProcessor;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Service;
 

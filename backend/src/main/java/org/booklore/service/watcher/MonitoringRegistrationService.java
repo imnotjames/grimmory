@@ -1,4 +1,4 @@
-package org.booklore.service.monitoring;
+package org.booklore.service.watcher;
 
 import org.booklore.model.dto.Library;
 import lombok.AllArgsConstructor;

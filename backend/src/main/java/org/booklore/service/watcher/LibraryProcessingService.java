@@ -1,4 +1,4 @@
-package org.booklore.service.library;
+package org.booklore.service.watcher;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -17,6 +17,11 @@ import org.booklore.repository.BookRepository;
 import org.booklore.repository.LibraryRepository;
 import org.booklore.service.NotificationService;
 import org.booklore.service.file.FileFingerprint;
+import org.booklore.service.library.BookCoverGenerator;
+import org.booklore.service.library.BookDeletionService;
+import org.booklore.service.library.BookGroupingService;
+import org.booklore.service.library.BookRestorationService;
+import org.booklore.service.library.LibraryFileHelper;
 import org.booklore.task.options.RescanLibraryContext;
 import org.booklore.util.FileUtils;
 import org.springframework.stereotype.Service;

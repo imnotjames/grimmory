@@ -220,7 +220,7 @@ public class LibraryFileHelper {
         return libraryFiles;
     }
 
-    List<LibraryFile> filterByAllowedFormats(List<LibraryFile> files, List<BookFileType> allowedFormats) {
+    public List<LibraryFile> filterByAllowedFormats(List<LibraryFile> files, List<BookFileType> allowedFormats) {
         if (allowedFormats == null || allowedFormats.isEmpty()) {
             return files;
         }

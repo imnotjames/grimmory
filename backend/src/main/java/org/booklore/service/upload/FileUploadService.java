@@ -22,7 +22,7 @@ import org.booklore.service.file.FileFingerprint;
 import org.booklore.service.file.FileMovingHelper;
 import org.booklore.service.metadata.extractor.MetadataExtractorFactory;
 import org.booklore.util.FileUtils;
-import org.booklore.service.monitoring.MonitoringRegistrationService;
+import org.booklore.service.watcher.MonitoringRegistrationService;
 import org.booklore.util.PathPatternResolver;
 import org.springframework.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;

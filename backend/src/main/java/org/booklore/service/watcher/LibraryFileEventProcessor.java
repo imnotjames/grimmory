@@ -11,7 +11,6 @@ import org.booklore.model.enums.LibraryOrganizationMode;
 import org.booklore.repository.BookRepository;
 import org.booklore.repository.LibraryRepository;
 import org.booklore.service.file.FileFingerprint;
-import org.booklore.service.library.LibraryProcessingService;
 import org.booklore.service.library.LibraryScanListener;
 import org.booklore.util.FileUtils;
 import lombok.RequiredArgsConstructor;

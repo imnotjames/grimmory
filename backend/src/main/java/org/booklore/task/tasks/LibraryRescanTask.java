@@ -8,7 +8,7 @@ import org.booklore.model.dto.Library;
 import org.booklore.model.dto.request.TaskCreateRequest;
 import org.booklore.model.dto.response.TaskCreateResponse;
 import org.booklore.model.enums.TaskType;
-import org.booklore.service.library.LibraryRescanHelper;
+import org.booklore.service.watcher.LibraryRescanHelper;
 import org.booklore.service.library.LibraryService;
 import org.booklore.task.TaskCancellationManager;
 import org.booklore.task.options.LibraryRescanOptions;

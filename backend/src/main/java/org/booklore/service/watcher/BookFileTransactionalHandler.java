@@ -16,7 +16,6 @@ import org.booklore.repository.BookRepository;
 import org.booklore.repository.LibraryRepository;
 import org.booklore.service.NotificationService;
 import org.booklore.service.file.FileFingerprint;
-import org.booklore.service.library.LibraryProcessingService;
 import org.booklore.util.BookFileGroupingUtils;
 import org.booklore.util.FileUtils;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,5 +1,7 @@
 package org.booklore.service.monitoring;
 
+import org.booklore.service.watcher.LibraryWatchService;
+import org.booklore.service.watcher.MonitoringRegistrationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.api.BeforeEach;

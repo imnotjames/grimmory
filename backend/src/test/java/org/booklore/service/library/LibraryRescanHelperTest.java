@@ -18,6 +18,7 @@ import org.booklore.service.NotificationService;
 import org.booklore.service.fileprocessor.AudiobookProcessor;
 import org.booklore.service.metadata.BookMetadataUpdater;
 import org.booklore.service.metadata.extractor.MetadataExtractorFactory;
+import org.booklore.service.watcher.LibraryRescanHelper;
 import org.booklore.task.options.RescanLibraryContext;
 import org.booklore.task.TaskCancellationManager;
 import org.booklore.task.TaskStatus;
