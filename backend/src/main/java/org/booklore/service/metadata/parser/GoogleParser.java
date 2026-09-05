@@ -164,7 +164,7 @@ public class GoogleParser implements BookParser {
                     .uri(uri)
                     .GET();
 
-            if (apiKey != null) {
+            if (apiKey != null && !apiKey.isBlank()) {
                 requestBuilder.setHeader(HEADER_API_KEY, apiKey);
             }
 
