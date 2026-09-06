@@ -29,6 +29,7 @@ import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.type.TypeFactory;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -198,11 +199,15 @@ public class AppSettingService {
     }
 
     private Map<AppSettingKey, String> getSettingsMap() {
+        var keys = Arrays.stream(AppSettingKey.values())
+                .map(AppSettingKey::getDbKey)
+                .collect(Collectors.toSet());
+
         return appSettingsRepository.findAll().stream()
-                .filter(entity -> entity.getName() != null && entity.getVal() != null)
+                .filter(entity -> keys.contains(entity.getName()))
                 .collect(
                     Collectors.toMap(
-                        (e) -> AppSettingKey.fromDbKey(e.getName()),
+                        entity -> AppSettingKey.fromDbKey(entity.getName()),
                         AppSettingEntity::getVal
                     )
                 );
