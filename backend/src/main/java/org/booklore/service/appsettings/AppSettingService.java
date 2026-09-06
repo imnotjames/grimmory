@@ -205,6 +205,7 @@ public class AppSettingService {
 
         return appSettingsRepository.findAll().stream()
                 .filter(entity -> keys.contains(entity.getName()))
+                .filter(entity -> entity.getVal() != null)
                 .collect(
                     Collectors.toMap(
                         entity -> AppSettingKey.fromDbKey(entity.getName()),
