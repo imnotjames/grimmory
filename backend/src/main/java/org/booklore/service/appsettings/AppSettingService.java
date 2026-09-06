@@ -24,8 +24,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import tools.jackson.core.JacksonException;
-import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JavaType;
 import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.type.TypeFactory;
 
 import java.net.URI;
 import java.util.LinkedHashSet;
@@ -215,14 +216,24 @@ public class AppSettingService {
         );
     }
 
-    private <T> T getJsonSetting(Map<AppSettingKey, String> settingsMap, AppSettingKey key, T defaultValue) {
+    private <T> List<T> getJsonListSetting(Map<AppSettingKey, String> settingsMap, AppSettingKey key, Class<T> classType, List<T> defaultValue) {
+        var javaType = TypeFactory.createDefaultInstance().constructParametricType(List.class, classType);
+        return getJsonSetting(settingsMap, key, javaType, defaultValue);
+    }
+
+    private <T> T getJsonSetting(Map<AppSettingKey, String> settingsMap, AppSettingKey key, Class<T> classType, T defaultValue) {
+        var javaType = TypeFactory.createDefaultInstance().constructType(classType);
+        return getJsonSetting(settingsMap, key, javaType, defaultValue);
+    }
+
+    private <T> T getJsonSetting(Map<AppSettingKey, String> settingsMap, AppSettingKey key, JavaType javaType, T defaultValue) {
         String json = settingsMap.get(key);
         if (json == null || json.isBlank()) {
             return defaultValue;
         }
 
         try {
-            return objectMapper.readValue(json, new TypeReference<>() {});
+            return objectMapper.readValue(json, javaType);
         } catch (JacksonException e) {
             log.error("Failed to parse JSON for setting key '{}'. Using default value. Error: {}", key, e.getMessage());
             return defaultValue;
@@ -234,7 +245,7 @@ public class AppSettingService {
         PublicAppSetting.PublicAppSettingBuilder builder = PublicAppSetting.builder();
 
         builder.remoteAuthEnabled(appProperties.getRemoteAuth().isEnabled());
-        OidcProviderDetails details = getJsonSetting(settingsMap, AppSettingKey.OIDC_PROVIDER_DETAILS, null);
+        OidcProviderDetails details = getJsonSetting(settingsMap, AppSettingKey.OIDC_PROVIDER_DETAILS, OidcProviderDetails.class, null);
         if (details != null) {
             details.setClientSecret(null);
         }
@@ -260,18 +271,18 @@ public class AppSettingService {
         AppSettings.AppSettingsBuilder builder = AppSettings.builder();
         builder.remoteAuthEnabled(appProperties.getRemoteAuth().isEnabled());
 
-        builder.defaultMetadataRefreshOptions(getJsonSetting(settingsMap, AppSettingKey.QUICK_BOOK_MATCH, getDefaultMetadataRefreshOptions()));
-        builder.libraryMetadataRefreshOptions(getJsonSetting(settingsMap, AppSettingKey.LIBRARY_METADATA_REFRESH_OPTIONS, List.of()));
-        builder.oidcProviderDetails(getJsonSetting(settingsMap, AppSettingKey.OIDC_PROVIDER_DETAILS, null));
-        builder.oidcRedirectUris(getJsonSetting(settingsMap, AppSettingKey.OIDC_REDIRECT_URIS, List.of(DEFAULT_MOBILE_REDIRECT_URI)));
-        builder.oidcAutoProvisionDetails(getJsonSetting(settingsMap, AppSettingKey.OIDC_AUTO_PROVISION_DETAILS, new OidcAutoProvisionDetails()));
-        builder.metadataProviderSettings(getJsonSetting(settingsMap, AppSettingKey.METADATA_PROVIDER_SETTINGS, getDefaultMetadataProviderSettings()));
-        builder.metadataMatchWeights(getJsonSetting(settingsMap, AppSettingKey.METADATA_MATCH_WEIGHTS, getDefaultMetadataMatchWeights()));
-        builder.metadataPersistenceSettings(getJsonSetting(settingsMap, AppSettingKey.METADATA_PERSISTENCE_SETTINGS, getDefaultMetadataPersistenceSettings()));
-        builder.metadataPublicReviewsSettings(getJsonSetting(settingsMap, AppSettingKey.METADATA_PUBLIC_REVIEWS_SETTINGS, getDefaultMetadataPublicReviewsSettings()));
-        builder.koboSettings(getJsonSetting(settingsMap, AppSettingKey.KOBO_SETTINGS, getDefaultKoboSettings()));
-        builder.coverCroppingSettings(getJsonSetting(settingsMap, AppSettingKey.COVER_CROPPING_SETTINGS, getDefaultCoverCroppingSettings()));
-        builder.metadataProviderSpecificFields(getJsonSetting(settingsMap, AppSettingKey.METADATA_PROVIDER_SPECIFIC_FIELDS, getDefaultMetadataProviderSpecificFields()));
+        builder.defaultMetadataRefreshOptions(getJsonSetting(settingsMap, AppSettingKey.QUICK_BOOK_MATCH, MetadataRefreshOptions.class, getDefaultMetadataRefreshOptions()));
+        builder.libraryMetadataRefreshOptions(getJsonListSetting(settingsMap, AppSettingKey.LIBRARY_METADATA_REFRESH_OPTIONS, MetadataRefreshOptions.class, List.of()));
+        builder.oidcProviderDetails(getJsonSetting(settingsMap, AppSettingKey.OIDC_PROVIDER_DETAILS, OidcProviderDetails.class, null));
+        builder.oidcRedirectUris(getJsonListSetting(settingsMap, AppSettingKey.OIDC_REDIRECT_URIS, String.class, List.of(DEFAULT_MOBILE_REDIRECT_URI)));
+        builder.oidcAutoProvisionDetails(getJsonSetting(settingsMap, AppSettingKey.OIDC_AUTO_PROVISION_DETAILS, OidcAutoProvisionDetails.class, new OidcAutoProvisionDetails()));
+        builder.metadataProviderSettings(getJsonSetting(settingsMap, AppSettingKey.METADATA_PROVIDER_SETTINGS, MetadataProviderSettings.class, getDefaultMetadataProviderSettings()));
+        builder.metadataMatchWeights(getJsonSetting(settingsMap, AppSettingKey.METADATA_MATCH_WEIGHTS, MetadataMatchWeights.class, getDefaultMetadataMatchWeights()));
+        builder.metadataPersistenceSettings(getJsonSetting(settingsMap, AppSettingKey.METADATA_PERSISTENCE_SETTINGS, MetadataPersistenceSettings.class, getDefaultMetadataPersistenceSettings()));
+        builder.metadataPublicReviewsSettings(getJsonSetting(settingsMap, AppSettingKey.METADATA_PUBLIC_REVIEWS_SETTINGS, MetadataPublicReviewsSettings.class, getDefaultMetadataPublicReviewsSettings()));
+        builder.koboSettings(getJsonSetting(settingsMap, AppSettingKey.KOBO_SETTINGS, KoboSettings.class, getDefaultKoboSettings()));
+        builder.coverCroppingSettings(getJsonSetting(settingsMap, AppSettingKey.COVER_CROPPING_SETTINGS, CoverCroppingSettings.class, getDefaultCoverCroppingSettings()));
+        builder.metadataProviderSpecificFields(getJsonSetting(settingsMap, AppSettingKey.METADATA_PROVIDER_SPECIFIC_FIELDS, MetadataProviderSpecificFields.class, getDefaultMetadataProviderSpecificFields()));
 
         builder.autoBookSearch(Boolean.parseBoolean(settingsMap.getOrDefault(AppSettingKey.AUTO_BOOK_SEARCH, "false")));
         builder.uploadPattern(settingsMap.getOrDefault(AppSettingKey.UPLOAD_FILE_PATTERN, "{authors}/<{series}/><{seriesIndex} - >{title}/{title}< - {authors}>< ({year})>"));
