@@ -40,7 +40,7 @@ describe('MetadataProviderService', () => {
     service.fetchMetadataDetail('google', 'abc123').subscribe();
 
     const detailRequest = httpTestingController.expectOne(req =>
-      req.url.endsWith('/api/v1/books/metadata/detail/google/abc123')
+      req.url.endsWith('/api/v1/books/provider/google/fetch/abc123')
     );
     expect(detailRequest.request.method).toBe('GET');
     detailRequest.flush({});
