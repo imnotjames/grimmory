@@ -30,8 +30,6 @@ function buildUser(overrides: Partial<User['permissions']> = {}): User {
 function buildAppSettings(overrides: Partial<AppSettings> = {}): AppSettings {
   return {
     opdsServerEnabled: false,
-    komgaApiEnabled: false,
-    komgaGroupUnknown: true,
     ...overrides,
   } as AppSettings;
 }
