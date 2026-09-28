@@ -1,12 +1,12 @@
 package org.booklore.service.metadata.extractor;
 
 import lombok.RequiredArgsConstructor;
+import org.booklore.service.ArchiveService;
 import org.booklore.util.epub.CoverDetectorService;
+import org.booklore.util.epub.EpubContentReader;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.node.ObjectNode;
-import org.grimmory.epub4j.domain.Book;
-import org.grimmory.epub4j.epub.EpubReader;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -44,6 +45,7 @@ public class EpubMetadataExtractor implements FileMetadataExtractor {
     private static final Set<Integer> VALID_AGE_RATINGS = Set.of(0, 6, 10, 13, 16, 18, 21);
 
     private final ObjectMapper objectMapper;
+    private final ArchiveService archiveService;
     private final CoverDetectorService coverDetectorService;
 
     private static final Map<String, BiConsumer<BookMetadata.BookMetadataBuilder, String>> CALIBRE_IDENTIFIER_PREFIXES = Map.ofEntries(
@@ -99,17 +101,35 @@ public class EpubMetadataExtractor implements FileMetadataExtractor {
         return null;
     }
 
+    private byte[] getOPFBytesFromEpub(File epubFile) throws IOException {
+        var containerBytes = archiveService.getEntryBytes(
+                epubFile.toPath(),
+                "META-INF/container.xml"
+        );
+
+        try (
+                var inputStream = new ByteArrayInputStream(containerBytes);
+        ) {
+            var href = EpubContentReader.getOPFHref(inputStream);
+
+            return archiveService.getEntryBytes(epubFile.toPath(), href);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     private Document getOPFDocumentFromEpub(File epubFile) throws IOException, ParserConfigurationException, SAXException {
-        Book book = new EpubReader().readEpubLazy(epubFile.toPath(), "UTF-8");
+        var opfBytes = getOPFBytesFromEpub(epubFile);
 
-        var opfResource = book.getOpfResource();
-
-        if (opfResource == null) {
+        if (opfBytes == null) {
             return null;
         }
 
-        try (var inputStream = opfResource.getInputStream()) {
-            return SecureXmlUtils.createSecureDocumentBuilder(true)
+        try (
+                var inputStream = new ByteArrayInputStream(opfBytes);
+        ) {
+            return SecureXmlUtils
+                    .createSecureDocumentBuilder(true)
                     .parse(inputStream);
         }
     }
